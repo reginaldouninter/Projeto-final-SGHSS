@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Pacientes - VidaPlus</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    VidaPlus
+                </div>
+            </div>
+            <div class="nav-menu">
+                <a href="prototipo_dashboard_profissional.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    Início
+                </a>
+                <a href="profissional_agenda.html" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    Agenda
+                </a>
+                <a href="profissional_pacientes.html" class="nav-item active">
+                    <i class="fas fa-users"></i>
+                    Pacientes
+                </a>
+                <a href="profissional_prontuarios.html" class="nav-item">
+                    <i class="fas fa-file-medical"></i>
+                    Prontuários
+                </a>
+                <a href="profissional_prescricoes.html" class="nav-item">
+                    <i class="fas fa-prescription"></i>
+                    Prescrições
+                </a>
+                <a href="profissional_relatorios.html" class="nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    Relatórios
+                </a>
+                <a href="profissional_perfil.html" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    Perfil
+                </a>
+                <a href="#" class="nav-item logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="page-title">
+                    <h1>Meus Pacientes</h1>
+                    <p>Gerencie informações e histórico dos seus pacientes</p>
+                </div>
+                <div class="user-profile">
+                    <div class="profile-avatar">JS</div>
+                    <div class="profile-info">
+                        <h3>Dr. João Silva</h3>
+                        <p>Médico Cardiologista</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="prototipo_dashboard_profissional.html">Início</a>
+                <span class="breadcrumb-separator">></span>
+                <span>Pacientes</span>
+            </div>
+
+            <!-- Filtros e Busca -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Buscar Pacientes</h3>
+                </div>
+                <div class="search-filters">
+                    <div class="search-bar">
+                        <div class="search-input">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Buscar por nome, CPF ou telefone..." id="searchInput">
+                        </div>
+                        <button class="btn btn-primary" onclick="buscarPacientes()">Buscar</button>
+                    </div>
+                    <div class="filter-options">
+                        <select class="form-select" onchange="filtrarPorStatus(this.value)">
+                            <option value="todos">Todos os pacientes</option>
+                            <option value="ativos">Pacientes ativos</option>
+                            <option value="inativos">Pacientes inativos</option>
+                            <option value="novos">Novos pacientes</option>
+                        </select>
+                        <select class="form-select" onchange="filtrarPorConvenio(this.value)">
+                            <option value="todos">Todos os convênios</option>
+                            <option value="unimed">Unimed</option>
+                            <option value="bradesco">Bradesco Saúde</option>
+                            <option value="amil">Amil</option>
+                            <option value="particular">Particular</option>
+                        </select>
+                        <select class="form-select" onchange="ordenarPacientes(this.value)">
+                            <option value="nome">Ordenar por nome</option>
+                            <option value="data">Última consulta</option>
+                            <option value="idade">Idade</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estatísticas Rápidas -->
+            <div class="grid grid-4">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>156</h3>
+                        <p>Total de Pacientes</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>12</h3>
+                        <p>Novos este Mês</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>8</h3>
+                        <p>Consultas Hoje</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>23</h3>
+                        <p>Aguardando Retorno</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de Pacientes -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Lista de Pacientes</h3>
+                    <div class="view-options">
+                        <button class="btn btn-secondary active" onclick="changeView('grid')">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button class="btn btn-secondary" onclick="changeView('list')">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Visualização em Grid -->
+                <div id="gridView" class="patients-grid">
+                    <div class="patient-card">
+                        <div class="patient-header">
+                            <div class="patient-avatar">MS</div>
+                            <div class="patient-status">
+                                <span class="badge badge-success">Ativo</span>
+                            </div>
+                        </div>
+                        <div class="patient-info">
+                            <h4>Maria Santos Silva</h4>
+                            <p><i class="fas fa-birthday-cake"></i> 45 anos</p>
+                            <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+                            <p><i class="fas fa-id-card"></i> Unimed Premium</p>
+                        </div>
+                        <div class="patient-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">Última Consulta:</span>
+                                <span class="summary-value">10/07/2025</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Próxima Consulta:</span>
+                                <span class="summary-value">15/07/2025</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Condição:</span>
+                                <span class="summary-value">Hipertensão</span>
+                            </div>
+                        </div>
+                        <div class="patient-actions">
+                            <button class="btn btn-primary" onclick="verPaciente(1)">Ver Detalhes</button>
+                            <button class="btn btn-secondary" onclick="agendarConsulta(1)">Agendar</button>
+                            <button class="btn btn-success" onclick="iniciarConsulta(1)">Consultar</button>
+                        </div>
+                    </div>
+
+                    <div class="patient-card">
+                        <div class="patient-header">
+                            <div class="patient-avatar">CE</div>
+                            <div class="patient-status">
+                                <span class="badge badge-warning">Novo</span>
+                            </div>
+                        </div>
+                        <div class="patient-info">
+                            <h4>Carlos Eduardo Lima</h4>
+                            <p><i class="fas fa-birthday-cake"></i> 52 anos</p>
+                            <p><i class="fas fa-phone"></i> (11) 88888-7777</p>
+                            <p><i class="fas fa-id-card"></i> Bradesco Saúde</p>
+                        </div>
+                        <div class="patient-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">Primeira Consulta:</span>
+                                <span class="summary-value">15/07/2025</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Motivo:</span>
+                                <span class="summary-value">Dor no peito</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Urgência:</span>
+                                <span class="summary-value text-warning">Média</span>
+                            </div>
+                        </div>
+                        <div class="patient-actions">
+                            <button class="btn btn-primary" onclick="verPaciente(2)">Ver Detalhes</button>
+                            <button class="btn btn-warning" onclick="prepararConsulta(2)">Preparar</button>
+                            <button class="btn btn-success" onclick="iniciarConsulta(2)">Consultar</button>
+                        </div>
+                    </div>
+
+                    <div class="patient-card">
+                        <div class="patient-header">
+                            <div class="patient-avatar">AP</div>
+                            <div class="patient-status">
+                                <span class="badge badge-success">Ativo</span>
+                            </div>
+                        </div>
+                        <div class="patient-info">
+                            <h4>Ana Paula Costa</h4>
+                            <p><i class="fas fa-birthday-cake"></i> 38 anos</p>
+                            <p><i class="fas fa-phone"></i> (11) 77777-6666</p>
+                            <p><i class="fas fa-id-card"></i> Amil</p>
+                        </div>
+                        <div class="patient-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">Última Consulta:</span>
+                                <span class="summary-value">05/07/2025</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Próxima Consulta:</span>
+                                <span class="summary-value">20/07/2025</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Condição:</span>
+                                <span class="summary-value">Acompanhamento</span>
+                            </div>
+                        </div>
+                        <div class="patient-actions">
+                            <button class="btn btn-primary" onclick="verPaciente(3)">Ver Detalhes</button>
+                            <button class="btn btn-secondary" onclick="agendarConsulta(3)">Agendar</button>
+                            <button class="btn btn-info" onclick="verHistorico(3)">Histórico</button>
+                        </div>
+                    </div>
+
+                    <div class="patient-card">
+                        <div class="patient-header">
+                            <div class="patient-avatar">RS</div>
+                            <div class="patient-status">
+                                <span class="badge badge-info">Teleconsulta</span>
+                            </div>
+                        </div>
+                        <div class="patient-info">
+                            <h4>Roberto Silva Santos</h4>
+                            <p><i class="fas fa-birthday-cake"></i> 61 anos</p>
+                            <p><i class="fas fa-phone"></i> (11) 66666-5555</p>
+                            <p><i class="fas fa-id-card"></i> Unimed</p>
+                        </div>
+                        <div class="patient-summary">
+                            <div class="summary-item">
+                                <span class="summary-label">Última Consulta:</span>
+                                <span class="summary-value">12/07/2025</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Teleconsulta:</span>
+                                <span class="summary-value">15/07/2025 14:00</span>
+                            </div>
+                            <div class="summary-item">
+                                <span class="summary-label">Condição:</span>
+                                <span class="summary-value">Diabetes</span>
+                            </div>
+                        </div>
+                        <div class="patient-actions">
+                            <button class="btn btn-primary" onclick="verPaciente(4)">Ver Detalhes</button>
+                            <button class="btn btn-success" onclick="iniciarTeleconsulta(4)">Videochamada</button>
+                            <button class="btn btn-info" onclick="verHistorico(4)">Histórico</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Visualização em Lista -->
+                <div id="listView" class="patients-list" style="display: none;">
+                    <table class="patients-table">
+                        <thead>
+                            <tr>
+                                <th>Paciente</th>
+                                <th>Idade</th>
+                                <th>Contato</th>
+                                <th>Convênio</th>
+                                <th>Última Consulta</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="patient-cell">
+                                        <div class="patient-avatar-small">MS</div>
+                                        <span>Maria Santos Silva</span>
+                                    </div>
+                                </td>
+                                <td>45 anos</td>
+                                <td>(11) 99999-9999</td>
+                                <td>Unimed Premium</td>
+                                <td>10/07/2025</td>
+                                <td><span class="badge badge-success">Ativo</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-small btn-primary" onclick="verPaciente(1)">Ver</button>
+                                        <button class="btn-small btn-secondary" onclick="agendarConsulta(1)">Agendar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="patient-cell">
+                                        <div class="patient-avatar-small">CE</div>
+                                        <span>Carlos Eduardo Lima</span>
+                                    </div>
+                                </td>
+                                <td>52 anos</td>
+                                <td>(11) 88888-7777</td>
+                                <td>Bradesco Saúde</td>
+                                <td>-</td>
+                                <td><span class="badge badge-warning">Novo</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-small btn-primary" onclick="verPaciente(2)">Ver</button>
+                                        <button class="btn-small btn-warning" onclick="prepararConsulta(2)">Preparar</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="patient-cell">
+                                        <div class="patient-avatar-small">AP</div>
+                                        <span>Ana Paula Costa</span>
+                                    </div>
+                                </td>
+                                <td>38 anos</td>
+                                <td>(11) 77777-6666</td>
+                                <td>Amil</td>
+                                <td>05/07/2025</td>
+                                <td><span class="badge badge-success">Ativo</span></td>
+                                <td>
+                                    <div class="table-actions">
+                                        <button class="btn-small btn-primary" onclick="verPaciente(3)">Ver</button>
+                                        <button class="btn-small btn-info" onclick="verHistorico(3)">Histórico</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/navigation.js"></script>
+    <script>
+        function buscarPacientes() {
+            const searchTerm = document.getElementById('searchInput').value;
+            navigation.showNotification(`Buscando por: ${searchTerm}`, 'info');
+            // Aqui implementaria a lógica de busca
+        }
+
+        function filtrarPorStatus(status) {
+            navigation.showNotification(`Filtrando por status: ${status}`, 'info');
+            // Aqui implementaria a lógica de filtro
+        }
+
+        function filtrarPorConvenio(convenio) {
+            navigation.showNotification(`Filtrando por convênio: ${convenio}`, 'info');
+            // Aqui implementaria a lógica de filtro
+        }
+
+        function ordenarPacientes(criterio) {
+            navigation.showNotification(`Ordenando por: ${criterio}`, 'info');
+            // Aqui implementaria a lógica de ordenação
+        }
+
+        function changeView(view) {
+            const gridView = document.getElementById('gridView');
+            const listView = document.getElementById('listView');
+            const buttons = document.querySelectorAll('.view-options .btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (view === 'grid') {
+                gridView.style.display = 'grid';
+                listView.style.display = 'none';
+            } else {
+                gridView.style.display = 'none';
+                listView.style.display = 'block';
+            }
+        }
+
+        function verPaciente(id) {
+            navigation.navigateTo(`profissional_paciente_detalhes.html?id=${id}`);
+        }
+
+        function agendarConsulta(id) {
+            navigation.navigateTo(`profissional_agendar_consulta.html?paciente=${id}`);
+        }
+
+        function iniciarConsulta(id) {
+            navigation.navigateTo(`profissional_consulta_detalhes.html?id=${id}&acao=iniciar`);
+        }
+
+        function iniciarTeleconsulta(id) {
+            navigation.navigateTo(`prototipo_telemedicina.html?consulta=${id}&tipo=profissional`);
+        }
+
+        function prepararConsulta(id) {
+            navigation.navigateTo(`profissional_preparar_consulta.html?paciente=${id}`);
+        }
+
+        function verHistorico(id) {
+            navigation.navigateTo(`profissional_historico_paciente.html?paciente=${id}`);
+        }
+
+        // Busca em tempo real
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            if (searchTerm.length > 2) {
+                // Aqui implementaria busca em tempo real
+                console.log('Buscando:', searchTerm);
+            }
+        });
+    </script>
+
+    <style>
+        .search-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6B7280;
+        }
+
+        .search-input input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .form-select {
+            padding: 8px 12px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            background: white;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .stat-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        .view-options {
+            display: flex;
+            gap: 5px;
+        }
+
+        .view-options .btn.active {
+            background: #2563EB;
+            color: white;
+        }
+
+        .patients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .patient-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #E5E7EB;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .patient-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .patient-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .patient-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .patient-info {
+            margin-bottom: 15px;
+        }
+
+        .patient-info h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 8px;
+        }
+
+        .patient-info p {
+            font-size: 14px;
+            color: #6B7280;
+            margin: 4px 0;
+        }
+
+        .patient-info i {
+            width: 16px;
+            margin-right: 8px;
+            color: #2563EB;
+        }
+
+        .patient-summary {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #F8FAFC;
+            border-radius: 8px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .summary-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .summary-label {
+            font-size: 13px;
+            color: #6B7280;
+        }
+
+        .summary-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #1F2937;
+        }
+
+        .text-warning {
+            color: #F59E0B !important;
+        }
+
+        .patient-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .patient-actions .btn {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+
+        .patients-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .patients-table th,
+        .patients-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .patients-table th {
+            background: #F8FAFC;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .patient-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .patient-avatar-small {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-small.btn-primary {
+            background: #2563EB;
+            color: white;
+        }
+
+        .btn-small.btn-secondary {
+            background: #6B7280;
+            color: white;
+        }
+
+        .btn-small.btn-warning {
+            background: #F59E0B;
+            color: white;
+        }
+
+        .btn-small.btn-info {
+            background: #0EA5E9;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .filter-options {
+                flex-direction: column;
+            }
+
+            .patients-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .patient-actions {
+                flex-direction: column;
+            }
+
+            .patients-table {
+                font-size: 14px;
+            }
+
+            .patients-table th,
+            .patients-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</body>
+</html>
+

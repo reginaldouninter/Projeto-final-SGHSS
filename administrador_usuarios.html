@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Usuários - VidaPlus</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    VidaPlus
+                </div>
+            </div>
+            <div class="nav-menu">
+                <a href="prototipo_dashboard_administrador.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    Início
+                </a>
+                <a href="administrador_usuarios.html" class="nav-item active">
+                    <i class="fas fa-users-cog"></i>
+                    Usuários
+                </a>
+                <a href="administrador_consultas.html" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    Consultas
+                </a>
+                <a href="administrador_financeiro.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Financeiro
+                </a>
+                <a href="administrador_relatorios.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    Relatórios
+                </a>
+                <a href="administrador_sistema.html" class="nav-item">
+                    <i class="fas fa-cogs"></i>
+                    Sistema
+                </a>
+                <a href="administrador_perfil.html" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    Perfil
+                </a>
+                <a href="#" class="nav-item logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="page-title">
+                    <h1>Gestão de Usuários</h1>
+                    <p>Gerencie pacientes, profissionais e administradores do sistema</p>
+                </div>
+                <div class="user-profile">
+                    <div class="profile-avatar">AS</div>
+                    <div class="profile-info">
+                        <h3>Ana Santos</h3>
+                        <p>Administrador do Sistema</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="prototipo_dashboard_administrador.html">Início</a>
+                <span class="breadcrumb-separator">></span>
+                <span>Usuários</span>
+            </div>
+
+            <!-- Estatísticas de Usuários -->
+            <div class="grid grid-4">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>2,847</h3>
+                        <p>Total de Usuários</p>
+                        <span class="stat-change positive">+12% este mês</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-injured"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>2,456</h3>
+                        <p>Pacientes</p>
+                        <span class="stat-change positive">+15% este mês</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>387</h3>
+                        <p>Profissionais</p>
+                        <span class="stat-change positive">+8% este mês</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>4</h3>
+                        <p>Administradores</p>
+                        <span class="stat-change neutral">= este mês</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ações Rápidas -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Ações Rápidas</h3>
+                </div>
+                <div class="grid grid-4">
+                    <button class="btn btn-primary" onclick="novoUsuario()">
+                        <i class="fas fa-user-plus"></i>
+                        Novo Usuário
+                    </button>
+                    <button class="btn btn-secondary" onclick="importarUsuarios()">
+                        <i class="fas fa-upload"></i>
+                        Importar Usuários
+                    </button>
+                    <button class="btn btn-success" onclick="exportarUsuarios()">
+                        <i class="fas fa-download"></i>
+                        Exportar Usuários
+                    </button>
+                    <button class="btn btn-warning" onclick="usuariosPendentes()">
+                        <i class="fas fa-clock"></i>
+                        Pendentes Aprovação
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Filtros de Busca</h3>
+                </div>
+                <div class="search-filters">
+                    <div class="search-bar">
+                        <div class="search-input">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Buscar por nome, e-mail, CPF ou CRM..." id="searchInput">
+                        </div>
+                        <button class="btn btn-primary" onclick="buscarUsuarios()">Buscar</button>
+                    </div>
+                    <div class="filter-options">
+                        <select class="form-select" onchange="filtrarPorTipo(this.value)">
+                            <option value="todos">Todos os tipos</option>
+                            <option value="paciente">Pacientes</option>
+                            <option value="profissional">Profissionais</option>
+                            <option value="administrador">Administradores</option>
+                        </select>
+                        <select class="form-select" onchange="filtrarPorStatus(this.value)">
+                            <option value="todos">Todos os status</option>
+                            <option value="ativo">Ativos</option>
+                            <option value="inativo">Inativos</option>
+                            <option value="pendente">Pendentes</option>
+                            <option value="bloqueado">Bloqueados</option>
+                        </select>
+                        <select class="form-select" onchange="filtrarPorEspecialidade(this.value)">
+                            <option value="todas">Todas especialidades</option>
+                            <option value="cardiologia">Cardiologia</option>
+                            <option value="clinica-geral">Clínica Geral</option>
+                            <option value="endocrinologia">Endocrinologia</option>
+                            <option value="neurologia">Neurologia</option>
+                        </select>
+                        <input type="date" class="form-select" placeholder="Data de cadastro" onchange="filtrarPorData(this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de Usuários -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Lista de Usuários</h3>
+                    <div class="view-controls">
+                        <button class="btn btn-secondary active" onclick="changeView('list')">
+                            <i class="fas fa-list"></i>
+                            Lista
+                        </button>
+                        <button class="btn btn-secondary" onclick="changeView('grid')">
+                            <i class="fas fa-th"></i>
+                            Grade
+                        </button>
+                    </div>
+                </div>
+                <div class="users-list">
+                    <!-- Profissional -->
+                    <div class="user-item profissional">
+                        <div class="user-header">
+                            <div class="user-info">
+                                <div class="user-avatar">JS</div>
+                                <div class="user-details">
+                                    <h4>Dr. João Silva Santos</h4>
+                                    <p>Médico Cardiologista • CRM: 12345-SP</p>
+                                    <span class="user-email">dr.joao.silva@vidaplus.com.br</span>
+                                </div>
+                            </div>
+                            <div class="user-meta">
+                                <span class="user-type profissional">Profissional</span>
+                                <span class="badge badge-success">Ativo</span>
+                                <span class="user-date">Cadastro: 15/01/2020</span>
+                            </div>
+                        </div>
+                        <div class="user-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Consultas</span>
+                                <span class="stat-value">1,247</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Pacientes</span>
+                                <span class="stat-value">156</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Avaliação</span>
+                                <span class="stat-value">4.8 ⭐</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Último Login</span>
+                                <span class="stat-value">Hoje, 08:30</span>
+                            </div>
+                        </div>
+                        <div class="user-actions">
+                            <button class="btn btn-primary" onclick="editarUsuario(1)">
+                                <i class="fas fa-edit"></i>
+                                Editar
+                            </button>
+                            <button class="btn btn-secondary" onclick="verDetalhes(1)">
+                                <i class="fas fa-eye"></i>
+                                Detalhes
+                            </button>
+                            <button class="btn btn-info" onclick="enviarMensagem(1)">
+                                <i class="fas fa-envelope"></i>
+                                Mensagem
+                            </button>
+                            <button class="btn btn-warning" onclick="bloquearUsuario(1)">
+                                <i class="fas fa-ban"></i>
+                                Bloquear
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Paciente -->
+                    <div class="user-item paciente">
+                        <div class="user-header">
+                            <div class="user-info">
+                                <div class="user-avatar">MS</div>
+                                <div class="user-details">
+                                    <h4>Maria Santos Silva</h4>
+                                    <p>Paciente • 45 anos • Unimed Premium</p>
+                                    <span class="user-email">maria.santos@email.com</span>
+                                </div>
+                            </div>
+                            <div class="user-meta">
+                                <span class="user-type paciente">Paciente</span>
+                                <span class="badge badge-success">Ativo</span>
+                                <span class="user-date">Cadastro: 20/03/2021</span>
+                            </div>
+                        </div>
+                        <div class="user-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Consultas</span>
+                                <span class="stat-value">28</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Exames</span>
+                                <span class="stat-value">15</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Teleconsultas</span>
+                                <span class="stat-value">8</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Último Login</span>
+                                <span class="stat-value">Ontem, 14:20</span>
+                            </div>
+                        </div>
+                        <div class="user-actions">
+                            <button class="btn btn-primary" onclick="editarUsuario(2)">
+                                <i class="fas fa-edit"></i>
+                                Editar
+                            </button>
+                            <button class="btn btn-secondary" onclick="verDetalhes(2)">
+                                <i class="fas fa-eye"></i>
+                                Detalhes
+                            </button>
+                            <button class="btn btn-info" onclick="verProntuario(2)">
+                                <i class="fas fa-file-medical"></i>
+                                Prontuário
+                            </button>
+                            <button class="btn btn-success" onclick="agendarConsulta(2)">
+                                <i class="fas fa-calendar-plus"></i>
+                                Agendar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Profissional Pendente -->
+                    <div class="user-item profissional pendente">
+                        <div class="user-header">
+                            <div class="user-info">
+                                <div class="user-avatar">CE</div>
+                                <div class="user-details">
+                                    <h4>Dr. Carlos Eduardo Lima</h4>
+                                    <p>Médico Endocrinologista • CRM: 67890-RJ</p>
+                                    <span class="user-email">dr.carlos.lima@email.com</span>
+                                </div>
+                            </div>
+                            <div class="user-meta">
+                                <span class="user-type profissional">Profissional</span>
+                                <span class="badge badge-warning">Pendente</span>
+                                <span class="user-date">Cadastro: 10/07/2025</span>
+                            </div>
+                        </div>
+                        <div class="user-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Documentos</span>
+                                <span class="stat-value">Enviados</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Verificação</span>
+                                <span class="stat-value">Em análise</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Especialidade</span>
+                                <span class="stat-value">Endocrinologia</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Aguardando</span>
+                                <span class="stat-value">5 dias</span>
+                            </div>
+                        </div>
+                        <div class="user-actions">
+                            <button class="btn btn-success" onclick="aprovarUsuario(3)">
+                                <i class="fas fa-check"></i>
+                                Aprovar
+                            </button>
+                            <button class="btn btn-danger" onclick="rejeitarUsuario(3)">
+                                <i class="fas fa-times"></i>
+                                Rejeitar
+                            </button>
+                            <button class="btn btn-secondary" onclick="verDocumentos(3)">
+                                <i class="fas fa-file-alt"></i>
+                                Documentos
+                            </button>
+                            <button class="btn btn-info" onclick="solicitarInfo(3)">
+                                <i class="fas fa-question"></i>
+                                Solicitar Info
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Administrador -->
+                    <div class="user-item administrador">
+                        <div class="user-header">
+                            <div class="user-info">
+                                <div class="user-avatar">AP</div>
+                                <div class="user-details">
+                                    <h4>Ana Paula Costa</h4>
+                                    <p>Administrador do Sistema • Nível: Super Admin</p>
+                                    <span class="user-email">ana.costa@vidaplus.com.br</span>
+                                </div>
+                            </div>
+                            <div class="user-meta">
+                                <span class="user-type administrador">Administrador</span>
+                                <span class="badge badge-info">Super Admin</span>
+                                <span class="user-date">Cadastro: 01/01/2020</span>
+                            </div>
+                        </div>
+                        <div class="user-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Permissões</span>
+                                <span class="stat-value">Todas</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Ações</span>
+                                <span class="stat-value">2,847</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Módulos</span>
+                                <span class="stat-value">Todos</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Último Login</span>
+                                <span class="stat-value">Agora</span>
+                            </div>
+                        </div>
+                        <div class="user-actions">
+                            <button class="btn btn-primary" onclick="editarUsuario(4)">
+                                <i class="fas fa-edit"></i>
+                                Editar
+                            </button>
+                            <button class="btn btn-secondary" onclick="verDetalhes(4)">
+                                <i class="fas fa-eye"></i>
+                                Detalhes
+                            </button>
+                            <button class="btn btn-warning" onclick="gerenciarPermissoes(4)">
+                                <i class="fas fa-key"></i>
+                                Permissões
+                            </button>
+                            <button class="btn btn-info" onclick="logAcoes(4)">
+                                <i class="fas fa-history"></i>
+                                Log Ações
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Usuário Bloqueado -->
+                    <div class="user-item paciente bloqueado">
+                        <div class="user-header">
+                            <div class="user-info">
+                                <div class="user-avatar">RS</div>
+                                <div class="user-details">
+                                    <h4>Roberto Silva Santos</h4>
+                                    <p>Paciente • 61 anos • Particular</p>
+                                    <span class="user-email">roberto.silva@email.com</span>
+                                </div>
+                            </div>
+                            <div class="user-meta">
+                                <span class="user-type paciente">Paciente</span>
+                                <span class="badge badge-danger">Bloqueado</span>
+                                <span class="user-date">Bloqueado: 05/07/2025</span>
+                            </div>
+                        </div>
+                        <div class="user-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Motivo</span>
+                                <span class="stat-value">Violação ToS</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Consultas</span>
+                                <span class="stat-value">12</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Reclamações</span>
+                                <span class="stat-value">3</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Bloqueado há</span>
+                                <span class="stat-value">10 dias</span>
+                            </div>
+                        </div>
+                        <div class="user-actions">
+                            <button class="btn btn-success" onclick="desbloquearUsuario(5)">
+                                <i class="fas fa-unlock"></i>
+                                Desbloquear
+                            </button>
+                            <button class="btn btn-secondary" onclick="verDetalhes(5)">
+                                <i class="fas fa-eye"></i>
+                                Detalhes
+                            </button>
+                            <button class="btn btn-warning" onclick="verReclamacoes(5)">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Reclamações
+                            </button>
+                            <button class="btn btn-danger" onclick="excluirUsuario(5)">
+                                <i class="fas fa-trash"></i>
+                                Excluir
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paginação -->
+                <div class="pagination">
+                    <button class="btn btn-secondary" onclick="previousPage()">
+                        <i class="fas fa-chevron-left"></i>
+                        Anterior
+                    </button>
+                    <div class="page-numbers">
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <span class="page-dots">...</span>
+                        <button class="page-btn">15</button>
+                    </div>
+                    <button class="btn btn-secondary" onclick="nextPage()">
+                        Próximo
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/navigation.js"></script>
+    <script>
+        function novoUsuario() {
+            navigation.navigateTo('administrador_novo_usuario.html');
+        }
+
+        function importarUsuarios() {
+            navigation.navigateTo('administrador_importar_usuarios.html');
+        }
+
+        function exportarUsuarios() {
+            navigation.showNotification('Preparando exportação de usuários...', 'info');
+            setTimeout(() => {
+                navigation.showNotification('Lista de usuários exportada com sucesso!', 'success');
+            }, 2000);
+        }
+
+        function usuariosPendentes() {
+            filtrarPorStatus('pendente');
+            navigation.showNotification('Mostrando usuários pendentes de aprovação', 'info');
+        }
+
+        function buscarUsuarios() {
+            const searchTerm = document.getElementById('searchInput').value;
+            navigation.showNotification(`Buscando por: ${searchTerm}`, 'info');
+        }
+
+        function filtrarPorTipo(tipo) {
+            navigation.showNotification(`Filtrando por tipo: ${tipo}`, 'info');
+        }
+
+        function filtrarPorStatus(status) {
+            navigation.showNotification(`Filtrando por status: ${status}`, 'info');
+        }
+
+        function filtrarPorEspecialidade(especialidade) {
+            navigation.showNotification(`Filtrando por especialidade: ${especialidade}`, 'info');
+        }
+
+        function filtrarPorData(data) {
+            navigation.showNotification(`Filtrando por data: ${data}`, 'info');
+        }
+
+        function changeView(view) {
+            document.querySelectorAll('.view-controls .btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            navigation.showNotification(`Visualização alterada para: ${view}`, 'info');
+        }
+
+        function editarUsuario(id) {
+            navigation.navigateTo(`administrador_editar_usuario.html?id=${id}`);
+        }
+
+        function verDetalhes(id) {
+            navigation.navigateTo(`administrador_detalhes_usuario.html?id=${id}`);
+        }
+
+        function enviarMensagem(id) {
+            navigation.navigateTo(`administrador_enviar_mensagem.html?usuario=${id}`);
+        }
+
+        function bloquearUsuario(id) {
+            navigation.confirmAction('Tem certeza que deseja bloquear este usuário?', () => {
+                navigation.showNotification('Usuário bloqueado com sucesso!', 'success');
+            });
+        }
+
+        function verProntuario(id) {
+            navigation.navigateTo(`administrador_ver_prontuario.html?paciente=${id}`);
+        }
+
+        function agendarConsulta(id) {
+            navigation.navigateTo(`administrador_agendar_consulta.html?paciente=${id}`);
+        }
+
+        function aprovarUsuario(id) {
+            navigation.confirmAction('Aprovar este profissional?', () => {
+                navigation.showNotification('Profissional aprovado e ativado no sistema!', 'success');
+            });
+        }
+
+        function rejeitarUsuario(id) {
+            navigation.confirmAction('Rejeitar este cadastro?', () => {
+                navigation.showNotification('Cadastro rejeitado. Usuário foi notificado.', 'warning');
+            });
+        }
+
+        function verDocumentos(id) {
+            navigation.navigateTo(`administrador_documentos_usuario.html?id=${id}`);
+        }
+
+        function solicitarInfo(id) {
+            navigation.navigateTo(`administrador_solicitar_informacoes.html?usuario=${id}`);
+        }
+
+        function gerenciarPermissoes(id) {
+            navigation.navigateTo(`administrador_permissoes_usuario.html?id=${id}`);
+        }
+
+        function logAcoes(id) {
+            navigation.navigateTo(`administrador_log_acoes.html?usuario=${id}`);
+        }
+
+        function desbloquearUsuario(id) {
+            navigation.confirmAction('Desbloquear este usuário?', () => {
+                navigation.showNotification('Usuário desbloqueado com sucesso!', 'success');
+            });
+        }
+
+        function verReclamacoes(id) {
+            navigation.navigateTo(`administrador_reclamacoes_usuario.html?id=${id}`);
+        }
+
+        function excluirUsuario(id) {
+            navigation.confirmAction('ATENÇÃO: Esta ação é irreversível. Excluir usuário permanentemente?', () => {
+                navigation.showNotification('Usuário excluído permanentemente!', 'error');
+            });
+        }
+
+        function previousPage() {
+            navigation.showNotification('Página anterior', 'info');
+        }
+
+        function nextPage() {
+            navigation.showNotification('Próxima página', 'info');
+        }
+    </script>
+
+    <style>
+        .search-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6B7280;
+        }
+
+        .search-input input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .form-select {
+            padding: 8px 12px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            background: white;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .view-controls .btn.active {
+            background: #2563EB;
+            color: white;
+        }
+
+        .users-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .user-item {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #E5E7EB;
+            border-left: 4px solid #6B7280;
+        }
+
+        .user-item.profissional {
+            border-left-color: #2563EB;
+        }
+
+        .user-item.paciente {
+            border-left-color: #10B981;
+        }
+
+        .user-item.administrador {
+            border-left-color: #7C3AED;
+        }
+
+        .user-item.pendente {
+            border-left-color: #F59E0B;
+            background: #FFFBEB;
+        }
+
+        .user-item.bloqueado {
+            border-left-color: #EF4444;
+            background: #FEF2F2;
+        }
+
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .user-item.paciente .user-avatar {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        }
+
+        .user-item.administrador .user-avatar {
+            background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+        }
+
+        .user-details h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .user-details p {
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 3px;
+        }
+
+        .user-email {
+            font-size: 13px;
+            color: #2563EB;
+        }
+
+        .user-meta {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .user-type {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .user-type.profissional {
+            background: #DBEAFE;
+            color: #1E40AF;
+        }
+
+        .user-type.paciente {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .user-type.administrador {
+            background: #EDE9FE;
+            color: #5B21B6;
+        }
+
+        .user-date {
+            font-size: 12px;
+            color: #6B7280;
+        }
+
+        .user-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #F8FAFC;
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 12px;
+            color: #6B7280;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F2937;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .user-actions .btn {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #E5E7EB;
+        }
+
+        .page-numbers {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .page-btn {
+            padding: 8px 12px;
+            border: 1px solid #D1D5DB;
+            background: white;
+            color: #374151;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .page-btn.active {
+            background: #2563EB;
+            color: white;
+            border-color: #2563EB;
+        }
+
+        .page-dots {
+            color: #6B7280;
+            padding: 0 10px;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .stat-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 5px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #10B981;
+        }
+
+        .stat-change.negative {
+            color: #EF4444;
+        }
+
+        .stat-change.neutral {
+            color: #6B7280;
+        }
+
+        @media (max-width: 768px) {
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .filter-options {
+                flex-direction: column;
+            }
+
+            .user-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .user-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .user-actions {
+                flex-direction: column;
+            }
+
+            .pagination {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</body>
+</html>
+

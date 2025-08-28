@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Prontuário - VidaPlus</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    VidaPlus
+                </div>
+            </div>
+            <div class="nav-menu">
+                <a href="prototipo_dashboard_paciente.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    Início
+                </a>
+                <a href="paciente_agendamentos.html" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    Agendamentos
+                </a>
+                <a href="paciente_prontuario.html" class="nav-item active">
+                    <i class="fas fa-file-medical"></i>
+                    Prontuário
+                </a>
+                <a href="paciente_exames.html" class="nav-item">
+                    <i class="fas fa-vial"></i>
+                    Exames
+                </a>
+                <a href="prototipo_telemedicina.html" class="nav-item">
+                    <i class="fas fa-video"></i>
+                    Telemedicina
+                </a>
+                <a href="paciente_perfil.html" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    Meu Perfil
+                </a>
+                <a href="#" class="nav-item logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="page-title">
+                    <h1>Meu Prontuário</h1>
+                    <p>Histórico médico completo e informações de saúde</p>
+                </div>
+                <div class="user-profile">
+                    <div class="profile-avatar">MS</div>
+                    <div class="profile-info">
+                        <h3>Maria Santos</h3>
+                        <p>Paciente</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="prototipo_dashboard_paciente.html">Início</a>
+                <span class="breadcrumb-separator">></span>
+                <span>Prontuário</span>
+            </div>
+
+            <!-- Informações Básicas -->
+            <div class="grid grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Informações Pessoais</h3>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Nome Completo:</label>
+                            <span>Maria Santos Silva</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Data de Nascimento:</label>
+                            <span>15/03/1980 (45 anos)</span>
+                        </div>
+                        <div class="info-item">
+                            <label>CPF:</label>
+                            <span>123.456.789-00</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Tipo Sanguíneo:</label>
+                            <span>O+</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Convênio:</label>
+                            <span>Unimed Premium</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Carteirinha:</label>
+                            <span>123456789012345</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Informações de Emergência</h3>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Contato de Emergência:</label>
+                            <span>João Santos Silva (Esposo)</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Telefone:</label>
+                            <span>(11) 99999-8888</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Alergias:</label>
+                            <span class="allergy-tag">Penicilina</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Medicamentos em Uso:</label>
+                            <span>Losartana 50mg, Sinvastatina 20mg</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Histórico Médico -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Histórico Médico</h3>
+                    <div class="filter-tabs">
+                        <button class="tab-btn active" onclick="showTab('consultas')">Consultas</button>
+                        <button class="tab-btn" onclick="showTab('exames')">Exames</button>
+                        <button class="tab-btn" onclick="showTab('prescricoes')">Prescrições</button>
+                        <button class="tab-btn" onclick="showTab('internacoes')">Internações</button>
+                    </div>
+                </div>
+
+                <!-- Tab Consultas -->
+                <div id="consultas" class="tab-content active">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">10/07/2025</div>
+                            <div class="timeline-content">
+                                <h4>Consulta Cardiológica</h4>
+                                <p><strong>Dr. João Silva</strong> - CRM 12345</p>
+                                <p><strong>Diagnóstico:</strong> Hipertensão arterial controlada</p>
+                                <p><strong>Observações:</strong> Paciente apresenta pressão arterial estável com medicação atual. Recomendado manter tratamento e retorno em 3 meses.</p>
+                                <div class="timeline-actions">
+                                    <button class="btn btn-secondary" onclick="verDetalhesConsulta(1)">Ver Detalhes</button>
+                                    <button class="btn btn-primary" onclick="baixarRelatorio(1)">Baixar Relatório</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">15/06/2025</div>
+                            <div class="timeline-content">
+                                <h4>Consulta Clínica Geral</h4>
+                                <p><strong>Dra. Maria Oliveira</strong> - CRM 67890</p>
+                                <p><strong>Diagnóstico:</strong> Check-up de rotina</p>
+                                <p><strong>Observações:</strong> Exames laboratoriais dentro da normalidade. Paciente em bom estado geral.</p>
+                                <div class="timeline-actions">
+                                    <button class="btn btn-secondary" onclick="verDetalhesConsulta(2)">Ver Detalhes</button>
+                                    <button class="btn btn-primary" onclick="baixarRelatorio(2)">Baixar Relatório</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <div class="timeline-date">20/05/2025</div>
+                            <div class="timeline-content">
+                                <h4>Consulta Cardiológica</h4>
+                                <p><strong>Dr. João Silva</strong> - CRM 12345</p>
+                                <p><strong>Diagnóstico:</strong> Primeira consulta - Hipertensão arterial</p>
+                                <p><strong>Observações:</strong> Iniciado tratamento com Losartana 50mg. Orientações sobre dieta e exercícios.</p>
+                                <div class="timeline-actions">
+                                    <button class="btn btn-secondary" onclick="verDetalhesConsulta(3)">Ver Detalhes</button>
+                                    <button class="btn btn-primary" onclick="baixarRelatorio(3)">Baixar Relatório</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Exames -->
+                <div id="exames" class="tab-content">
+                    <div class="exams-grid">
+                        <div class="exam-card">
+                            <div class="exam-header">
+                                <h4>Hemograma Completo</h4>
+                                <span class="exam-date">08/07/2025</span>
+                            </div>
+                            <div class="exam-status">
+                                <span class="badge badge-success">Resultado Disponível</span>
+                            </div>
+                            <div class="exam-actions">
+                                <button class="btn btn-primary" onclick="verResultado(1)">Ver Resultado</button>
+                                <button class="btn btn-secondary" onclick="baixarExame(1)">Download PDF</button>
+                            </div>
+                        </div>
+
+                        <div class="exam-card">
+                            <div class="exam-header">
+                                <h4>Eletrocardiograma</h4>
+                                <span class="exam-date">08/07/2025</span>
+                            </div>
+                            <div class="exam-status">
+                                <span class="badge badge-success">Resultado Disponível</span>
+                            </div>
+                            <div class="exam-actions">
+                                <button class="btn btn-primary" onclick="verResultado(2)">Ver Resultado</button>
+                                <button class="btn btn-secondary" onclick="baixarExame(2)">Download PDF</button>
+                            </div>
+                        </div>
+
+                        <div class="exam-card">
+                            <div class="exam-header">
+                                <h4>Raio-X Tórax</h4>
+                                <span class="exam-date">18/07/2025</span>
+                            </div>
+                            <div class="exam-status">
+                                <span class="badge badge-warning">Agendado</span>
+                            </div>
+                            <div class="exam-actions">
+                                <button class="btn btn-secondary" onclick="verDetalhesExame(3)">Ver Detalhes</button>
+                                <button class="btn btn-warning" onclick="remarcarExame(3)">Remarcar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Prescrições -->
+                <div id="prescricoes" class="tab-content">
+                    <div class="prescriptions-list">
+                        <div class="prescription-item">
+                            <div class="prescription-header">
+                                <h4>Prescrição Médica</h4>
+                                <span class="prescription-date">10/07/2025</span>
+                            </div>
+                            <div class="prescription-doctor">
+                                <p><strong>Dr. João Silva</strong> - Cardiologia</p>
+                            </div>
+                            <div class="prescription-meds">
+                                <div class="med-item">
+                                    <strong>Losartana 50mg</strong>
+                                    <p>1 comprimido pela manhã - 30 dias</p>
+                                </div>
+                                <div class="med-item">
+                                    <strong>Sinvastatina 20mg</strong>
+                                    <p>1 comprimido à noite - 30 dias</p>
+                                </div>
+                            </div>
+                            <div class="prescription-actions">
+                                <button class="btn btn-primary" onclick="baixarReceita(1)">Download PDF</button>
+                                <button class="btn btn-secondary" onclick="enviarFarmacia(1)">Enviar para Farmácia</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab Internações -->
+                <div id="internacoes" class="tab-content">
+                    <div class="no-data">
+                        <i class="fas fa-bed fa-3x"></i>
+                        <h3>Nenhuma internação registrada</h3>
+                        <p>Você não possui histórico de internações hospitalares.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/navigation.js"></script>
+    <script>
+        function showTab(tabName) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        function verDetalhesConsulta(id) {
+            navigation.navigateTo(`paciente_consulta_detalhes.html?id=${id}`);
+        }
+
+        function baixarRelatorio(id) {
+            navigation.showNotification('Baixando relatório médico...', 'info');
+            // Simula download
+            setTimeout(() => {
+                navigation.showNotification('Relatório baixado com sucesso!', 'success');
+            }, 2000);
+        }
+
+        function verResultado(id) {
+            navigation.navigateTo(`paciente_resultado_exame.html?id=${id}`);
+        }
+
+        function baixarExame(id) {
+            navigation.showNotification('Baixando resultado do exame...', 'info');
+            setTimeout(() => {
+                navigation.showNotification('Resultado baixado com sucesso!', 'success');
+            }, 2000);
+        }
+
+        function verDetalhesExame(id) {
+            navigation.navigateTo(`paciente_exame_detalhes.html?id=${id}`);
+        }
+
+        function remarcarExame(id) {
+            navigation.navigateTo(`prototipo_agendamento.html?remarcar=${id}&tipo=exame`);
+        }
+
+        function baixarReceita(id) {
+            navigation.showNotification('Baixando receita médica...', 'info');
+            setTimeout(() => {
+                navigation.showNotification('Receita baixada com sucesso!', 'success');
+            }, 2000);
+        }
+
+        function enviarFarmacia(id) {
+            navigation.showNotification('Enviando prescrição para farmácia parceira...', 'info');
+            setTimeout(() => {
+                navigation.showNotification('Prescrição enviada! Você receberá um SMS com o status.', 'success');
+            }, 2000);
+        }
+    </script>
+
+    <style>
+        .info-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #F3F4F6;
+        }
+
+        .info-item label {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .info-item span {
+            color: #6B7280;
+        }
+
+        .allergy-tag {
+            background: #FEE2E2;
+            color: #991B1B;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border: none;
+            background: #F3F4F6;
+            color: #6B7280;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: #2563EB;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #E5E7EB;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -23px;
+            top: 10px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #2563EB;
+        }
+
+        .timeline-date {
+            font-size: 14px;
+            color: #6B7280;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .timeline-content {
+            background: #F8FAFC;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #2563EB;
+        }
+
+        .timeline-content h4 {
+            color: #1F2937;
+            margin-bottom: 10px;
+        }
+
+        .timeline-content p {
+            margin: 5px 0;
+            color: #6B7280;
+        }
+
+        .timeline-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .timeline-actions .btn {
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        .exams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .exam-card {
+            background: #F8FAFC;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #2563EB;
+        }
+
+        .exam-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .exam-header h4 {
+            color: #1F2937;
+        }
+
+        .exam-date {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        .exam-status {
+            margin-bottom: 15px;
+        }
+
+        .exam-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .exam-actions .btn {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .prescriptions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .prescription-item {
+            background: #F8FAFC;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #10B981;
+        }
+
+        .prescription-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .prescription-doctor {
+            margin-bottom: 15px;
+        }
+
+        .prescription-meds {
+            margin-bottom: 15px;
+        }
+
+        .med-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .med-item strong {
+            color: #1F2937;
+        }
+
+        .med-item p {
+            margin: 5px 0 0 0;
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .prescription-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .prescription-actions .btn {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6B7280;
+        }
+
+        .no-data i {
+            margin-bottom: 20px;
+            color: #D1D5DB;
+        }
+
+        .no-data h3 {
+            margin-bottom: 10px;
+            color: #374151;
+        }
+
+        @media (max-width: 768px) {
+            .filter-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .timeline-actions,
+            .exam-actions,
+            .prescription-actions {
+                flex-direction: column;
+            }
+            
+            .exam-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+        }
+    </style>
+</body>
+</html>
+

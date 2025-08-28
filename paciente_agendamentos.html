@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Agendamentos - VidaPlus</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    VidaPlus
+                </div>
+            </div>
+            <div class="nav-menu">
+                <a href="prototipo_dashboard_paciente.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    Início
+                </a>
+                <a href="paciente_agendamentos.html" class="nav-item active">
+                    <i class="fas fa-calendar-alt"></i>
+                    Agendamentos
+                </a>
+                <a href="paciente_prontuario.html" class="nav-item">
+                    <i class="fas fa-file-medical"></i>
+                    Prontuário
+                </a>
+                <a href="paciente_exames.html" class="nav-item">
+                    <i class="fas fa-vial"></i>
+                    Exames
+                </a>
+                <a href="prototipo_telemedicina.html" class="nav-item">
+                    <i class="fas fa-video"></i>
+                    Telemedicina
+                </a>
+                <a href="paciente_perfil.html" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    Meu Perfil
+                </a>
+                <a href="#" class="nav-item logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="page-title">
+                    <h1>Meus Agendamentos</h1>
+                    <p>Gerencie suas consultas e exames agendados</p>
+                </div>
+                <div class="user-profile">
+                    <div class="profile-avatar">MS</div>
+                    <div class="profile-info">
+                        <h3>Maria Santos</h3>
+                        <p>Paciente</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="prototipo_dashboard_paciente.html">Início</a>
+                <span class="breadcrumb-separator">></span>
+                <span>Agendamentos</span>
+            </div>
+
+            <!-- Ações Rápidas -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Ações Rápidas</h3>
+                </div>
+                <div class="grid grid-3">
+                    <a href="prototipo_agendamento.html" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Nova Consulta
+                    </a>
+                    <a href="paciente_exames.html" class="btn btn-secondary">
+                        <i class="fas fa-vial"></i>
+                        Agendar Exame
+                    </a>
+                    <a href="prototipo_telemedicina.html" class="btn btn-success">
+                        <i class="fas fa-video"></i>
+                        Teleconsulta
+                    </a>
+                </div>
+            </div>
+
+            <!-- Próximos Agendamentos -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Próximos Agendamentos</h3>
+                    <span class="badge badge-info">3 agendamentos</span>
+                </div>
+                <div class="appointments-list">
+                    <div class="appointment-item">
+                        <div class="appointment-date">
+                            <div class="date-day">15</div>
+                            <div class="date-month">JUL</div>
+                        </div>
+                        <div class="appointment-info">
+                            <h4>Consulta Cardiológica</h4>
+                            <p><i class="fas fa-user-md"></i> Dr. João Silva</p>
+                            <p><i class="fas fa-clock"></i> 14:30</p>
+                            <p><i class="fas fa-map-marker-alt"></i> Clínica VidaPlus - Centro</p>
+                        </div>
+                        <div class="appointment-status">
+                            <span class="badge badge-success">Confirmado</span>
+                        </div>
+                        <div class="appointment-actions">
+                            <a href="paciente_consulta_detalhes.html?id=1" class="btn btn-secondary">Ver Detalhes</a>
+                            <button class="btn btn-warning" onclick="remarcarConsulta(1)">Remarcar</button>
+                        </div>
+                    </div>
+
+                    <div class="appointment-item">
+                        <div class="appointment-date">
+                            <div class="date-day">18</div>
+                            <div class="date-month">JUL</div>
+                        </div>
+                        <div class="appointment-info">
+                            <h4>Exame de Sangue</h4>
+                            <p><i class="fas fa-vial"></i> Laboratório Central</p>
+                            <p><i class="fas fa-clock"></i> 08:00</p>
+                            <p><i class="fas fa-map-marker-alt"></i> VidaPlus Lab - Zona Sul</p>
+                        </div>
+                        <div class="appointment-status">
+                            <span class="badge badge-warning">Pendente</span>
+                        </div>
+                        <div class="appointment-actions">
+                            <a href="paciente_exame_detalhes.html?id=1" class="btn btn-secondary">Ver Detalhes</a>
+                            <button class="btn btn-danger" onclick="cancelarExame(1)">Cancelar</button>
+                        </div>
+                    </div>
+
+                    <div class="appointment-item">
+                        <div class="appointment-date">
+                            <div class="date-day">22</div>
+                            <div class="date-month">JUL</div>
+                        </div>
+                        <div class="appointment-info">
+                            <h4>Retorno Cardiológico</h4>
+                            <p><i class="fas fa-user-md"></i> Dr. João Silva</p>
+                            <p><i class="fas fa-clock"></i> 15:00</p>
+                            <p><i class="fas fa-video"></i> Teleconsulta</p>
+                        </div>
+                        <div class="appointment-status">
+                            <span class="badge badge-info">Teleconsulta</span>
+                        </div>
+                        <div class="appointment-actions">
+                            <a href="paciente_consulta_detalhes.html?id=2" class="btn btn-secondary">Ver Detalhes</a>
+                            <a href="prototipo_telemedicina.html" class="btn btn-success">Iniciar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Histórico de Agendamentos -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Histórico de Agendamentos</h3>
+                    <div class="filter-options">
+                        <select class="form-select">
+                            <option>Últimos 30 dias</option>
+                            <option>Últimos 3 meses</option>
+                            <option>Últimos 6 meses</option>
+                            <option>Último ano</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="history-list">
+                    <div class="history-item completed">
+                        <div class="history-date">10/07/2025</div>
+                        <div class="history-info">
+                            <h4>Consulta Clínica Geral</h4>
+                            <p>Dra. Maria Oliveira</p>
+                        </div>
+                        <div class="history-status">
+                            <span class="badge badge-success">Realizada</span>
+                        </div>
+                        <div class="history-actions">
+                            <a href="paciente_consulta_detalhes.html?id=3" class="btn btn-secondary">Ver Relatório</a>
+                        </div>
+                    </div>
+
+                    <div class="history-item cancelled">
+                        <div class="history-date">05/07/2025</div>
+                        <div class="history-info">
+                            <h4>Exame de Ultrassom</h4>
+                            <p>Dr. Carlos Santos</p>
+                        </div>
+                        <div class="history-status">
+                            <span class="badge badge-danger">Cancelada</span>
+                        </div>
+                        <div class="history-actions">
+                            <button class="btn btn-primary" onclick="reagendar(4)">Reagendar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/navigation.js"></script>
+    <script>
+        function remarcarConsulta(id) {
+            navigation.confirmAction('Deseja remarcar esta consulta?', () => {
+                navigation.showNotification('Redirecionando para reagendamento...', 'info');
+                setTimeout(() => {
+                    navigation.navigateTo('prototipo_agendamento.html?remarcar=' + id);
+                }, 1500);
+            });
+        }
+
+        function cancelarExame(id) {
+            navigation.confirmAction('Tem certeza que deseja cancelar este exame?', () => {
+                navigation.showNotification('Exame cancelado com sucesso!', 'success');
+                // Aqui removeria o item da lista
+            });
+        }
+
+        function reagendar(id) {
+            navigation.navigateTo('prototipo_agendamento.html?reagendar=' + id);
+        }
+    </script>
+
+    <style>
+        .appointments-list, .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .appointment-item, .history-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: #F8FAFC;
+            border-radius: 10px;
+            border-left: 4px solid #2563EB;
+        }
+
+        .appointment-date {
+            text-align: center;
+            min-width: 60px;
+        }
+
+        .date-day {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2563EB;
+        }
+
+        .date-month {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6B7280;
+        }
+
+        .appointment-info {
+            flex: 1;
+        }
+
+        .appointment-info h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1F2937;
+        }
+
+        .appointment-info p {
+            margin: 4px 0;
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .appointment-info i {
+            width: 16px;
+            margin-right: 8px;
+            color: #2563EB;
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+        }
+
+        .appointment-actions .btn {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .history-date {
+            font-weight: 600;
+            color: #6B7280;
+            min-width: 100px;
+        }
+
+        .form-select {
+            padding: 8px 12px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            background: white;
+            color: #374151;
+        }
+
+        @media (max-width: 768px) {
+            .appointment-item, .history-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .appointment-actions {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+    </style>
+</body>
+</html>
+

@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão Financeira - VidaPlus</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    VidaPlus
+                </div>
+            </div>
+            <div class="nav-menu">
+                <a href="prototipo_dashboard_administrador.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    Início
+                </a>
+                <a href="administrador_usuarios.html" class="nav-item">
+                    <i class="fas fa-users-cog"></i>
+                    Usuários
+                </a>
+                <a href="administrador_consultas.html" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    Consultas
+                </a>
+                <a href="administrador_financeiro.html" class="nav-item active">
+                    <i class="fas fa-chart-line"></i>
+                    Financeiro
+                </a>
+                <a href="administrador_relatorios.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    Relatórios
+                </a>
+                <a href="administrador_sistema.html" class="nav-item">
+                    <i class="fas fa-cogs"></i>
+                    Sistema
+                </a>
+                <a href="administrador_perfil.html" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    Perfil
+                </a>
+                <a href="#" class="nav-item logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="page-title">
+                    <h1>Gestão Financeira</h1>
+                    <p>Monitore receitas, despesas e performance financeira da plataforma</p>
+                </div>
+                <div class="user-profile">
+                    <div class="profile-avatar">AS</div>
+                    <div class="profile-info">
+                        <h3>Ana Santos</h3>
+                        <p>Administrador do Sistema</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="prototipo_dashboard_administrador.html">Início</a>
+                <span class="breadcrumb-separator">></span>
+                <span>Financeiro</span>
+            </div>
+
+            <!-- Métricas Financeiras Principais -->
+            <div class="grid grid-4">
+                <div class="metric-card receita">
+                    <div class="metric-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h3>R$ 485.230</h3>
+                        <p>Receita Total</p>
+                        <span class="metric-change positive">+18% vs mês anterior</span>
+                    </div>
+                </div>
+                <div class="metric-card despesa">
+                    <div class="metric-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h3>R$ 125.480</h3>
+                        <p>Despesas</p>
+                        <span class="metric-change positive">+5% vs mês anterior</span>
+                    </div>
+                </div>
+                <div class="metric-card lucro">
+                    <div class="metric-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h3>R$ 359.750</h3>
+                        <p>Lucro Líquido</p>
+                        <span class="metric-change positive">+25% vs mês anterior</span>
+                    </div>
+                </div>
+                <div class="metric-card margem">
+                    <div class="metric-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="metric-info">
+                        <h3>74.1%</h3>
+                        <p>Margem de Lucro</p>
+                        <span class="metric-change positive">+3.2% vs mês anterior</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros de Período -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Período de Análise</h3>
+                </div>
+                <div class="period-filters">
+                    <div class="period-buttons">
+                        <button class="btn btn-secondary" onclick="setPeriod('7d')">7 dias</button>
+                        <button class="btn btn-secondary active" onclick="setPeriod('30d')">30 dias</button>
+                        <button class="btn btn-secondary" onclick="setPeriod('90d')">3 meses</button>
+                        <button class="btn btn-secondary" onclick="setPeriod('1y')">1 ano</button>
+                    </div>
+                    <div class="custom-period">
+                        <input type="date" id="startDate" value="2025-06-15">
+                        <span>até</span>
+                        <input type="date" id="endDate" value="2025-07-15">
+                        <button class="btn btn-primary" onclick="applyCustomPeriod()">Aplicar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráficos Financeiros -->
+            <div class="grid grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Receita por Período</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="receitaChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Receita por Convênio</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="convenioChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Receitas por Categoria -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Receitas por Categoria</h3>
+                </div>
+                <div class="revenue-categories">
+                    <div class="category-item">
+                        <div class="category-info">
+                            <div class="category-icon">
+                                <i class="fas fa-stethoscope"></i>
+                            </div>
+                            <div class="category-details">
+                                <h4>Consultas Presenciais</h4>
+                                <p>1,280 consultas realizadas</p>
+                            </div>
+                        </div>
+                        <div class="category-value">
+                            <span class="value">R$ 256.000</span>
+                            <span class="percentage">52.8%</span>
+                        </div>
+                        <div class="category-bar">
+                            <div class="bar-fill" style="width: 52.8%"></div>
+                        </div>
+                    </div>
+
+                    <div class="category-item">
+                        <div class="category-info">
+                            <div class="category-icon">
+                                <i class="fas fa-video"></i>
+                            </div>
+                            <div class="category-details">
+                                <h4>Teleconsultas</h4>
+                                <p>450 teleconsultas realizadas</p>
+                            </div>
+                        </div>
+                        <div class="category-value">
+                            <span class="value">R$ 135.000</span>
+                            <span class="percentage">27.8%</span>
+                        </div>
+                        <div class="category-bar">
+                            <div class="bar-fill" style="width: 27.8%"></div>
+                        </div>
+                    </div>
+
+                    <div class="category-item">
+                        <div class="category-info">
+                            <div class="category-icon">
+                                <i class="fas fa-vial"></i>
+                            </div>
+                            <div class="category-details">
+                                <h4>Exames</h4>
+                                <p>320 exames realizados</p>
+                            </div>
+                        </div>
+                        <div class="category-value">
+                            <span class="value">R$ 64.000</span>
+                            <span class="percentage">13.2%</span>
+                        </div>
+                        <div class="category-bar">
+                            <div class="bar-fill" style="width: 13.2%"></div>
+                        </div>
+                    </div>
+
+                    <div class="category-item">
+                        <div class="category-info">
+                            <div class="category-icon">
+                                <i class="fas fa-prescription"></i>
+                            </div>
+                            <div class="category-details">
+                                <h4>Prescrições</h4>
+                                <p>150 prescrições emitidas</p>
+                            </div>
+                        </div>
+                        <div class="category-value">
+                            <span class="value">R$ 30.230</span>
+                            <span class="percentage">6.2%</span>
+                        </div>
+                        <div class="category-bar">
+                            <div class="bar-fill" style="width: 6.2%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transações Recentes -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Transações Recentes</h3>
+                    <button class="btn btn-secondary" onclick="verTodasTransacoes()">
+                        Ver Todas
+                    </button>
+                </div>
+                <div class="transactions-list">
+                    <div class="transaction-item receita">
+                        <div class="transaction-info">
+                            <div class="transaction-icon">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="transaction-details">
+                                <h4>Consulta - Maria Santos</h4>
+                                <p>Dr. João Silva • Unimed Premium</p>
+                                <span class="transaction-date">15/07/2025 - 14:30</span>
+                            </div>
+                        </div>
+                        <div class="transaction-value positive">
+                            +R$ 200,00
+                        </div>
+                    </div>
+
+                    <div class="transaction-item receita">
+                        <div class="transaction-info">
+                            <div class="transaction-icon">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="transaction-details">
+                                <h4>Teleconsulta - Carlos Lima</h4>
+                                <p>Dra. Ana Costa • Bradesco Saúde</p>
+                                <span class="transaction-date">15/07/2025 - 11:00</span>
+                            </div>
+                        </div>
+                        <div class="transaction-value positive">
+                            +R$ 150,00
+                        </div>
+                    </div>
+
+                    <div class="transaction-item despesa">
+                        <div class="transaction-info">
+                            <div class="transaction-icon">
+                                <i class="fas fa-minus"></i>
+                            </div>
+                            <div class="transaction-details">
+                                <h4>Pagamento - Servidor AWS</h4>
+                                <p>Infraestrutura de TI</p>
+                                <span class="transaction-date">15/07/2025 - 09:00</span>
+                            </div>
+                        </div>
+                        <div class="transaction-value negative">
+                            -R$ 2.500,00
+                        </div>
+                    </div>
+
+                    <div class="transaction-item receita">
+                        <div class="transaction-info">
+                            <div class="transaction-icon">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                            <div class="transaction-details">
+                                <h4>Exame - Ana Paula</h4>
+                                <p>Laboratório Parceiro • Amil</p>
+                                <span class="transaction-date">14/07/2025 - 16:20</span>
+                            </div>
+                        </div>
+                        <div class="transaction-value positive">
+                            +R$ 180,00
+                        </div>
+                    </div>
+
+                    <div class="transaction-item despesa">
+                        <div class="transaction-info">
+                            <div class="transaction-icon">
+                                <i class="fas fa-minus"></i>
+                            </div>
+                            <div class="transaction-details">
+                                <h4>Comissão - Dr. João Silva</h4>
+                                <p>Comissão sobre consultas</p>
+                                <span class="transaction-date">14/07/2025 - 18:00</span>
+                            </div>
+                        </div>
+                        <div class="transaction-value negative">
+                            -R$ 1.200,00
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ações Financeiras -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Ações Financeiras</h3>
+                </div>
+                <div class="grid grid-4">
+                    <button class="btn btn-primary" onclick="gerarFatura()">
+                        <i class="fas fa-file-invoice"></i>
+                        Gerar Fatura
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportarDados()">
+                        <i class="fas fa-download"></i>
+                        Exportar Dados
+                    </button>
+                    <button class="btn btn-success" onclick="configurarPagamentos()">
+                        <i class="fas fa-credit-card"></i>
+                        Config. Pagamentos
+                    </button>
+                    <button class="btn btn-warning" onclick="gerenciarTaxas()">
+                        <i class="fas fa-percentage"></i>
+                        Gerenciar Taxas
+                    </button>
+                </div>
+            </div>
+
+            <!-- Resumo por Profissional -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Performance por Profissional</h3>
+                </div>
+                <div class="professional-performance">
+                    <div class="performance-item">
+                        <div class="professional-info">
+                            <div class="professional-avatar">JS</div>
+                            <div class="professional-details">
+                                <h4>Dr. João Silva</h4>
+                                <p>Cardiologista</p>
+                            </div>
+                        </div>
+                        <div class="performance-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Consultas</span>
+                                <span class="stat-value">142</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Receita</span>
+                                <span class="stat-value">R$ 28.400</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Comissão</span>
+                                <span class="stat-value">R$ 8.520</span>
+                            </div>
+                        </div>
+                        <div class="performance-actions">
+                            <button class="btn btn-secondary" onclick="verDetalhesPerformance(1)">
+                                <i class="fas fa-eye"></i>
+                                Detalhes
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="performance-item">
+                        <div class="professional-info">
+                            <div class="professional-avatar">AC</div>
+                            <div class="professional-details">
+                                <h4>Dra. Ana Costa</h4>
+                                <p>Clínica Geral</p>
+                            </div>
+                        </div>
+                        <div class="performance-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Consultas</span>
+                                <span class="stat-value">98</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Receita</span>
+                                <span class="stat-value">R$ 19.600</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Comissão</span>
+                                <span class="stat-value">R$ 5.880</span>
+                            </div>
+                        </div>
+                        <div class="performance-actions">
+                            <button class="btn btn-secondary" onclick="verDetalhesPerformance(2)">
+                                <i class="fas fa-eye"></i>
+                                Detalhes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/navigation.js"></script>
+    <script>
+        let currentPeriod = '30d';
+
+        function setPeriod(period) {
+            currentPeriod = period;
+            document.querySelectorAll('.period-buttons .btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            navigation.showNotification(`Período alterado para: ${period}`, 'info');
+            updateCharts();
+        }
+
+        function applyCustomPeriod() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            
+            if (startDate && endDate) {
+                navigation.showNotification(`Período personalizado aplicado: ${startDate} até ${endDate}`, 'success');
+                updateCharts();
+            } else {
+                navigation.showNotification('Por favor, selecione as datas de início e fim', 'warning');
+            }
+        }
+
+        function updateCharts() {
+            navigation.showNotification('Gráficos financeiros atualizados', 'success');
+            // Aqui seria implementada a lógica para atualizar os gráficos
+        }
+
+        function verTodasTransacoes() {
+            navigation.navigateTo('administrador_todas_transacoes.html');
+        }
+
+        function gerarFatura() {
+            navigation.showNotification('Gerando fatura mensal...', 'info');
+            setTimeout(() => {
+                navigation.showNotification('Fatura gerada e enviada por e-mail!', 'success');
+            }, 2000);
+        }
+
+        function exportarDados() {
+            navigation.showNotification('Preparando exportação de dados financeiros...', 'info');
+            setTimeout(() => {
+                navigation.showNotification('Dados financeiros exportados com sucesso!', 'success');
+            }, 2000);
+        }
+
+        function configurarPagamentos() {
+            navigation.navigateTo('administrador_config_pagamentos.html');
+        }
+
+        function gerenciarTaxas() {
+            navigation.navigateTo('administrador_gerenciar_taxas.html');
+        }
+
+        function verDetalhesPerformance(id) {
+            navigation.navigateTo(`administrador_performance_profissional.html?id=${id}`);
+        }
+
+        // Simulação de gráficos simples
+        function drawFinancialChart(canvasId, type = 'line') {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Dados simulados
+            const data = canvasId === 'receitaChart' 
+                ? [25000, 28000, 32000, 35000, 30000, 38000, 42000, 36000, 34000, 40000, 45000, 48500]
+                : [40, 25, 20, 15]; // Para gráfico de pizza dos convênios
+            
+            const width = canvas.width;
+            const height = canvas.height;
+            const padding = 40;
+            
+            if (canvasId === 'receitaChart') {
+                // Gráfico de linha para receita
+                const max = Math.max(...data);
+                
+                // Desenha eixos
+                ctx.strokeStyle = '#E5E7EB';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, height - padding);
+                ctx.lineTo(width - padding, height - padding);
+                ctx.stroke();
+                
+                // Desenha linha
+                ctx.strokeStyle = '#10B981';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                data.forEach((value, index) => {
+                    const x = padding + (index * (width - 2 * padding) / (data.length - 1));
+                    const y = height - padding - (value / max * (height - 2 * padding));
+                    
+                    if (index === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+                ctx.stroke();
+            } else {
+                // Gráfico de pizza para convênios
+                const total = data.reduce((a, b) => a + b, 0);
+                const colors = ['#2563EB', '#10B981', '#F59E0B', '#EF4444'];
+                const centerX = width / 2;
+                const centerY = height / 2;
+                const radius = Math.min(width, height) / 3;
+                
+                let currentAngle = 0;
+                data.forEach((value, index) => {
+                    const sliceAngle = (value / total) * 2 * Math.PI;
+                    
+                    ctx.fillStyle = colors[index];
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, centerY);
+                    ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
+                    ctx.closePath();
+                    ctx.fill();
+                    
+                    currentAngle += sliceAngle;
+                });
+            }
+        }
+
+        // Inicializa gráficos quando a página carrega
+        window.addEventListener('load', function() {
+            drawFinancialChart('receitaChart', 'line');
+            drawFinancialChart('convenioChart', 'pie');
+        });
+    </script>
+
+    <style>
+        .period-filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .period-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .period-buttons .btn.active {
+            background: #2563EB;
+            color: white;
+        }
+
+        .custom-period {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .custom-period input[type="date"] {
+            padding: 8px 12px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .metric-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .metric-card.receita .metric-icon {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        }
+
+        .metric-card.despesa .metric-icon {
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+        }
+
+        .metric-card.lucro .metric-icon {
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+        }
+
+        .metric-card.margem .metric-icon {
+            background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+        }
+
+        .metric-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .metric-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .metric-info p {
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 5px;
+        }
+
+        .metric-change {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .metric-change.positive {
+            color: #10B981;
+        }
+
+        .metric-change.negative {
+            color: #EF4444;
+        }
+
+        .chart-container {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .revenue-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .category-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: #F8FAFC;
+            border-radius: 10px;
+        }
+
+        .category-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .category-details h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .category-details p {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        .category-value {
+            text-align: right;
+            min-width: 120px;
+        }
+
+        .category-value .value {
+            display: block;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .category-value .percentage {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        .category-bar {
+            width: 100px;
+            height: 8px;
+            background: #E5E7EB;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2563EB 0%, #1D4ED8 100%);
+        }
+
+        .transactions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #F8FAFC;
+            border-radius: 10px;
+            border-left: 4px solid #6B7280;
+        }
+
+        .transaction-item.receita {
+            border-left-color: #10B981;
+        }
+
+        .transaction-item.despesa {
+            border-left-color: #EF4444;
+        }
+
+        .transaction-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            background: #E5E7EB;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6B7280;
+        }
+
+        .transaction-item.receita .transaction-icon {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .transaction-item.despesa .transaction-icon {
+            background: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .transaction-details h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .transaction-details p {
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 3px;
+        }
+
+        .transaction-date {
+            font-size: 12px;
+            color: #9CA3AF;
+        }
+
+        .transaction-value {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .transaction-value.positive {
+            color: #10B981;
+        }
+
+        .transaction-value.negative {
+            color: #EF4444;
+        }
+
+        .professional-performance {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .performance-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: #F8FAFC;
+            border-radius: 10px;
+        }
+
+        .professional-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            min-width: 200px;
+        }
+
+        .professional-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .professional-details h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .professional-details p {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        .performance-stats {
+            display: flex;
+            gap: 30px;
+            flex: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            display: block;
+            font-size: 12px;
+            color: #6B7280;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F2937;
+        }
+
+        @media (max-width: 768px) {
+            .period-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .period-buttons {
+                justify-content: center;
+            }
+
+            .custom-period {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .category-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .category-bar {
+                width: 100%;
+            }
+
+            .transaction-item {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .performance-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .performance-stats {
+                justify-content: center;
+            }
+        }
+    </style>
+</body>
+</html>
+

@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Agenda - VidaPlus</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    VidaPlus
+                </div>
+            </div>
+            <div class="nav-menu">
+                <a href="prototipo_dashboard_profissional.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    Início
+                </a>
+                <a href="profissional_agenda.html" class="nav-item active">
+                    <i class="fas fa-calendar-alt"></i>
+                    Agenda
+                </a>
+                <a href="profissional_pacientes.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    Pacientes
+                </a>
+                <a href="profissional_prontuarios.html" class="nav-item">
+                    <i class="fas fa-file-medical"></i>
+                    Prontuários
+                </a>
+                <a href="profissional_prescricoes.html" class="nav-item">
+                    <i class="fas fa-prescription"></i>
+                    Prescrições
+                </a>
+                <a href="profissional_relatorios.html" class="nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    Relatórios
+                </a>
+                <a href="profissional_perfil.html" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    Perfil
+                </a>
+                <a href="#" class="nav-item logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="page-title">
+                    <h1>Minha Agenda</h1>
+                    <p>Gerencie seus horários e consultas</p>
+                </div>
+                <div class="user-profile">
+                    <div class="profile-avatar">JS</div>
+                    <div class="profile-info">
+                        <h3>Dr. João Silva</h3>
+                        <p>Médico Cardiologista</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="prototipo_dashboard_profissional.html">Início</a>
+                <span class="breadcrumb-separator">></span>
+                <span>Agenda</span>
+            </div>
+
+            <!-- Controles da Agenda -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Controles da Agenda</h3>
+                </div>
+                <div class="agenda-controls">
+                    <div class="view-controls">
+                        <button class="btn btn-secondary active" onclick="changeView('day')">Dia</button>
+                        <button class="btn btn-secondary" onclick="changeView('week')">Semana</button>
+                        <button class="btn btn-secondary" onclick="changeView('month')">Mês</button>
+                    </div>
+                    <div class="date-navigation">
+                        <button class="btn btn-secondary" onclick="previousPeriod()">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="current-date">15 de Julho de 2025</span>
+                        <button class="btn btn-secondary" onclick="nextPeriod()">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button class="btn btn-primary" onclick="goToToday()">Hoje</button>
+                    </div>
+                    <div class="agenda-actions">
+                        <button class="btn btn-success" onclick="adicionarHorario()">
+                            <i class="fas fa-plus"></i>
+                            Novo Horário
+                        </button>
+                        <button class="btn btn-warning" onclick="bloquearHorario()">
+                            <i class="fas fa-ban"></i>
+                            Bloquear Horário
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Agenda do Dia -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Agenda de Hoje - 15/07/2025</h3>
+                    <div class="agenda-stats">
+                        <span class="badge badge-info">8 consultas</span>
+                        <span class="badge badge-success">6 confirmadas</span>
+                        <span class="badge badge-warning">2 pendentes</span>
+                    </div>
+                </div>
+                <div class="agenda-timeline">
+                    <div class="time-slots">
+                        <!-- Manhã -->
+                        <div class="time-period">
+                            <h4>Manhã</h4>
+                            
+                            <div class="appointment-slot occupied">
+                                <div class="time-label">08:00</div>
+                                <div class="appointment-card">
+                                    <div class="patient-info">
+                                        <h5>Maria Santos Silva</h5>
+                                        <p>Consulta de Retorno - Cardiologia</p>
+                                        <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+                                    </div>
+                                    <div class="appointment-status">
+                                        <span class="badge badge-success">Confirmada</span>
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="btn btn-primary" onclick="iniciarConsulta(1)">Iniciar</button>
+                                        <button class="btn btn-secondary" onclick="verPaciente(1)">Ver Paciente</button>
+                                        <button class="btn btn-warning" onclick="remarcarConsulta(1)">Remarcar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="appointment-slot occupied">
+                                <div class="time-label">08:30</div>
+                                <div class="appointment-card">
+                                    <div class="patient-info">
+                                        <h5>Carlos Eduardo Lima</h5>
+                                        <p>Primeira Consulta - Cardiologia</p>
+                                        <p><i class="fas fa-phone"></i> (11) 88888-7777</p>
+                                    </div>
+                                    <div class="appointment-status">
+                                        <span class="badge badge-warning">Pendente</span>
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="btn btn-primary" onclick="iniciarConsulta(2)">Iniciar</button>
+                                        <button class="btn btn-secondary" onclick="verPaciente(2)">Ver Paciente</button>
+                                        <button class="btn btn-success" onclick="confirmarConsulta(2)">Confirmar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="appointment-slot available">
+                                <div class="time-label">09:00</div>
+                                <div class="empty-slot">
+                                    <p>Horário Disponível</p>
+                                    <button class="btn btn-primary" onclick="agendarConsulta('09:00')">Agendar</button>
+                                </div>
+                            </div>
+
+                            <div class="appointment-slot occupied">
+                                <div class="time-label">09:30</div>
+                                <div class="appointment-card">
+                                    <div class="patient-info">
+                                        <h5>Ana Paula Costa</h5>
+                                        <p>Consulta de Acompanhamento</p>
+                                        <p><i class="fas fa-phone"></i> (11) 77777-6666</p>
+                                    </div>
+                                    <div class="appointment-status">
+                                        <span class="badge badge-success">Confirmada</span>
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="btn btn-primary" onclick="iniciarConsulta(3)">Iniciar</button>
+                                        <button class="btn btn-secondary" onclick="verPaciente(3)">Ver Paciente</button>
+                                        <button class="btn btn-warning" onclick="remarcarConsulta(3)">Remarcar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="appointment-slot blocked">
+                                <div class="time-label">10:00</div>
+                                <div class="blocked-slot">
+                                    <p><i class="fas fa-ban"></i> Horário Bloqueado</p>
+                                    <small>Reunião Médica</small>
+                                    <button class="btn btn-secondary" onclick="editarBloqueio('10:00')">Editar</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarde -->
+                        <div class="time-period">
+                            <h4>Tarde</h4>
+                            
+                            <div class="appointment-slot occupied">
+                                <div class="time-label">14:00</div>
+                                <div class="appointment-card">
+                                    <div class="patient-info">
+                                        <h5>Roberto Silva Santos</h5>
+                                        <p>Teleconsulta - Retorno</p>
+                                        <p><i class="fas fa-video"></i> Videochamada</p>
+                                    </div>
+                                    <div class="appointment-status">
+                                        <span class="badge badge-info">Teleconsulta</span>
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="btn btn-success" onclick="iniciarTeleconsulta(4)">Iniciar Chamada</button>
+                                        <button class="btn btn-secondary" onclick="verPaciente(4)">Ver Paciente</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="appointment-slot occupied">
+                                <div class="time-label">14:30</div>
+                                <div class="appointment-card">
+                                    <div class="patient-info">
+                                        <h5>Fernanda Oliveira</h5>
+                                        <p>Consulta de Rotina</p>
+                                        <p><i class="fas fa-phone"></i> (11) 66666-5555</p>
+                                    </div>
+                                    <div class="appointment-status">
+                                        <span class="badge badge-success">Confirmada</span>
+                                    </div>
+                                    <div class="appointment-actions">
+                                        <button class="btn btn-primary" onclick="iniciarConsulta(5)">Iniciar</button>
+                                        <button class="btn btn-secondary" onclick="verPaciente(5)">Ver Paciente</button>
+                                        <button class="btn btn-warning" onclick="remarcarConsulta(5)">Remarcar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="appointment-slot available">
+                                <div class="time-label">15:00</div>
+                                <div class="empty-slot">
+                                    <p>Horário Disponível</p>
+                                    <button class="btn btn-primary" onclick="agendarConsulta('15:00')">Agendar</button>
+                                </div>
+                            </div>
+
+                            <div class="appointment-slot available">
+                                <div class="time-label">15:30</div>
+                                <div class="empty-slot">
+                                    <p>Horário Disponível</p>
+                                    <button class="btn btn-primary" onclick="agendarConsulta('15:30')">Agendar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resumo Semanal -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Resumo da Semana</h3>
+                </div>
+                <div class="weekly-summary">
+                    <div class="summary-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">42</div>
+                            <div class="stat-label">Consultas Agendadas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">38</div>
+                            <div class="stat-label">Consultas Realizadas</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">4</div>
+                            <div class="stat-label">Cancelamentos</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">12</div>
+                            <div class="stat-label">Teleconsultas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/navigation.js"></script>
+    <script>
+        let currentView = 'day';
+        let currentDate = new Date();
+
+        function changeView(view) {
+            currentView = view;
+            document.querySelectorAll('.view-controls .btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            navigation.showNotification(`Visualização alterada para: ${view}`, 'info');
+            // Aqui implementaria a lógica para mudar a visualização
+        }
+
+        function previousPeriod() {
+            if (currentView === 'day') {
+                currentDate.setDate(currentDate.getDate() - 1);
+            } else if (currentView === 'week') {
+                currentDate.setDate(currentDate.getDate() - 7);
+            } else if (currentView === 'month') {
+                currentDate.setMonth(currentDate.getMonth() - 1);
+            }
+            updateDateDisplay();
+        }
+
+        function nextPeriod() {
+            if (currentView === 'day') {
+                currentDate.setDate(currentDate.getDate() + 1);
+            } else if (currentView === 'week') {
+                currentDate.setDate(currentDate.getDate() + 7);
+            } else if (currentView === 'month') {
+                currentDate.setMonth(currentDate.getMonth() + 1);
+            }
+            updateDateDisplay();
+        }
+
+        function goToToday() {
+            currentDate = new Date();
+            updateDateDisplay();
+            navigation.showNotification('Navegado para hoje', 'success');
+        }
+
+        function updateDateDisplay() {
+            const dateStr = currentDate.toLocaleDateString('pt-BR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            document.querySelector('.current-date').textContent = dateStr;
+        }
+
+        function adicionarHorario() {
+            navigation.showNotification('Abrindo formulário para adicionar novo horário...', 'info');
+            // Aqui abriria um modal para adicionar horário
+        }
+
+        function bloquearHorario() {
+            navigation.showNotification('Abrindo formulário para bloquear horário...', 'info');
+            // Aqui abriria um modal para bloquear horário
+        }
+
+        function iniciarConsulta(id) {
+            navigation.navigateTo(`profissional_consulta_detalhes.html?id=${id}&acao=iniciar`);
+        }
+
+        function iniciarTeleconsulta(id) {
+            navigation.navigateTo(`prototipo_telemedicina.html?consulta=${id}&tipo=profissional`);
+        }
+
+        function verPaciente(id) {
+            navigation.navigateTo(`profissional_paciente_detalhes.html?id=${id}`);
+        }
+
+        function remarcarConsulta(id) {
+            navigation.confirmAction('Deseja remarcar esta consulta?', () => {
+                navigation.showNotification('Abrindo opções de reagendamento...', 'info');
+                // Aqui abriria modal de reagendamento
+            });
+        }
+
+        function confirmarConsulta(id) {
+            navigation.confirmAction('Confirmar esta consulta?', () => {
+                navigation.showNotification('Consulta confirmada com sucesso!', 'success');
+                // Aqui atualizaria o status da consulta
+            });
+        }
+
+        function agendarConsulta(horario) {
+            navigation.showNotification(`Abrindo agendamento para ${horario}...`, 'info');
+            // Aqui abriria modal de agendamento
+        }
+
+        function editarBloqueio(horario) {
+            navigation.showNotification(`Editando bloqueio de ${horario}...`, 'info');
+            // Aqui abriria modal para editar bloqueio
+        }
+    </script>
+
+    <style>
+        .agenda-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .view-controls .btn.active {
+            background: #2563EB;
+            color: white;
+        }
+
+        .date-navigation {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .current-date {
+            font-weight: 600;
+            color: #1F2937;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .agenda-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .agenda-stats {
+            display: flex;
+            gap: 10px;
+        }
+
+        .agenda-timeline {
+            margin-top: 20px;
+        }
+
+        .time-period {
+            margin-bottom: 30px;
+        }
+
+        .time-period h4 {
+            color: #374151;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #E5E7EB;
+        }
+
+        .appointment-slot {
+            display: flex;
+            margin-bottom: 15px;
+            min-height: 80px;
+        }
+
+        .time-label {
+            width: 80px;
+            font-weight: 600;
+            color: #6B7280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #F8FAFC;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .appointment-card {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .appointment-slot.occupied .appointment-card {
+            border-left: 4px solid #2563EB;
+        }
+
+        .patient-info {
+            flex: 1;
+        }
+
+        .patient-info h5 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .patient-info p {
+            font-size: 14px;
+            color: #6B7280;
+            margin: 3px 0;
+        }
+
+        .patient-info i {
+            width: 16px;
+            margin-right: 8px;
+            color: #2563EB;
+        }
+
+        .appointment-actions {
+            display: flex;
+            gap: 8px;
+            flex-direction: column;
+        }
+
+        .appointment-actions .btn {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .empty-slot {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #F0FDF4;
+            border-radius: 10px;
+            border: 2px dashed #10B981;
+        }
+
+        .empty-slot p {
+            color: #059669;
+            font-weight: 500;
+        }
+
+        .blocked-slot {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: #FEF2F2;
+            border-radius: 10px;
+            border: 2px dashed #EF4444;
+        }
+
+        .blocked-slot p {
+            color: #DC2626;
+            font-weight: 500;
+        }
+
+        .blocked-slot small {
+            color: #6B7280;
+            font-size: 12px;
+        }
+
+        .weekly-summary {
+            margin-top: 20px;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: #F8FAFC;
+            border-radius: 10px;
+            border: 1px solid #E5E7EB;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2563EB;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        @media (max-width: 768px) {
+            .agenda-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .view-controls,
+            .date-navigation,
+            .agenda-actions {
+                justify-content: center;
+            }
+
+            .appointment-card {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .appointment-actions {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .summary-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</body>
+</html>
+

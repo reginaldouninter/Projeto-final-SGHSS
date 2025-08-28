@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidaPlus - Teleconsulta</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #1F2937;
+            color: white;
+            overflow: hidden;
+        }
+        
+        .telemedicine-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .consultation-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .patient-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .consultation-details h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .consultation-details p {
+            font-size: 14px;
+            color: #9CA3AF;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .timer {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10B981;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .end-call-btn {
+            background: #EF4444;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .end-call-btn:hover {
+            background: #DC2626;
+        }
+        
+        .main-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 0;
+        }
+        
+        .video-section {
+            background: #111827;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .video-container {
+            flex: 1;
+            position: relative;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .main-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #1F2937 0%, #111827 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #6B7280;
+        }
+        
+        .video-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .video-placeholder i {
+            font-size: 64px;
+            color: #374151;
+        }
+        
+        .video-placeholder p {
+            color: #6B7280;
+            font-size: 18px;
+        }
+        
+        .self-video {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 200px;
+            height: 150px;
+            background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+            border-radius: 12px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .video-controls {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .control-btn.mic {
+            background: #10B981;
+            color: white;
+        }
+        
+        .control-btn.mic.muted {
+            background: #EF4444;
+        }
+        
+        .control-btn.camera {
+            background: #3B82F6;
+            color: white;
+        }
+        
+        .control-btn.camera.off {
+            background: #EF4444;
+        }
+        
+        .control-btn.share {
+            background: #8B5CF6;
+            color: white;
+        }
+        
+        .control-btn.share.active {
+            background: #10B981;
+        }
+        
+        .control-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .control-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .sidebar {
+            background: #F9FAFB;
+            color: #1F2937;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid #E5E7EB;
+        }
+        
+        .sidebar-tabs {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        
+        .sidebar-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .sidebar-tab.active {
+            border-bottom-color: #2563EB;
+            color: #2563EB;
+            background: #EBF4FF;
+        }
+        
+        .sidebar-tab:hover {
+            background: #F3F4F6;
+        }
+        
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .tab-content {
+            display: none;
+            height: 100%;
+        }
+        
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .message {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .message.sent {
+            flex-direction: row-reverse;
+        }
+        
+        .message-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 12px;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .message.sent .message-avatar {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        }
+        
+        .message-content {
+            background: white;
+            padding: 12px 15px;
+            border-radius: 15px;
+            max-width: 80%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .message.sent .message-content {
+            background: #2563EB;
+            color: white;
+        }
+        
+        .message-text {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        
+        .message-time {
+            font-size: 11px;
+            color: #6B7280;
+            margin-top: 5px;
+        }
+        
+        .message.sent .message-time {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #E5E7EB;
+            border-radius: 25px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .chat-input input:focus {
+            border-color: #2563EB;
+        }
+        
+        .send-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #2563EB;
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .send-btn:hover {
+            background: #1E40AF;
+            transform: scale(1.05);
+        }
+        
+        .notes-container {
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .notes-header {
+            margin-bottom: 20px;
+        }
+        
+        .notes-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .patient-info {
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .patient-info h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1F2937;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        
+        .info-label {
+            color: #6B7280;
+        }
+        
+        .info-value {
+            font-weight: 500;
+            color: #1F2937;
+        }
+        
+        .notes-textarea {
+            flex: 1;
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #E5E7EB;
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: none;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .notes-textarea:focus {
+            border-color: #2563EB;
+        }
+        
+        .notes-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .notes-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .notes-btn.primary {
+            background: #2563EB;
+            color: white;
+        }
+        
+        .notes-btn.primary:hover {
+            background: #1E40AF;
+        }
+        
+        .notes-btn.secondary {
+            background: #F3F4F6;
+            color: #6B7280;
+        }
+        
+        .notes-btn.secondary:hover {
+            background: #E5E7EB;
+        }
+        
+        .connection-status {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .connection-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr auto;
+            }
+            
+            .sidebar {
+                height: 300px;
+                border-left: none;
+                border-top: 1px solid #E5E7EB;
+            }
+            
+            .self-video {
+                width: 120px;
+                height: 90px;
+                top: 10px;
+                right: 10px;
+            }
+            
+            .video-controls {
+                padding: 15px;
+                gap: 15px;
+            }
+            
+            .control-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="telemedicine-container">
+        <div class="header">
+            <div class="consultation-info">
+                <div class="patient-avatar">MS</div>
+                <div class="consultation-details">
+                    <h3>Teleconsulta - Maria Santos</h3>
+                    <p>Cardiologia • Dr. João Silva</p>
+                </div>
+            </div>
+            
+            <div class="header-actions">
+                <div class="timer" id="timer">00:05:23</div>
+                <button class="end-call-btn" onclick="endCall()">
+                    <i class="fas fa-phone-slash"></i>
+                    Encerrar
+                </button>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="video-section">
+                <div class="video-container">
+                    <div class="connection-status">
+                        <div class="connection-indicator"></div>
+                        Conectado
+                    </div>
+                    
+                    <div class="main-video">
+                        <div class="video-placeholder">
+                            <i class="fas fa-user"></i>
+                            <p>Maria Santos</p>
+                        </div>
+                    </div>
+                    
+                    <div class="self-video">
+                        Dr. Silva
+                    </div>
+                </div>
+                
+                <div class="video-controls">
+                    <button class="control-btn mic" id="micBtn" onclick="toggleMic()">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    
+                    <button class="control-btn camera" id="cameraBtn" onclick="toggleCamera()">
+                        <i class="fas fa-video"></i>
+                    </button>
+                    
+                    <button class="control-btn share" id="shareBtn" onclick="toggleShare()">
+                        <i class="fas fa-desktop"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="sidebar-tabs">
+                    <div class="sidebar-tab active" onclick="switchTab('chat')">
+                        <i class="fas fa-comments"></i> Chat
+                    </div>
+                    <div class="sidebar-tab" onclick="switchTab('notes')">
+                        <i class="fas fa-notes-medical"></i> Anotações
+                    </div>
+                </div>
+                
+                <div class="sidebar-content">
+                    <div class="tab-content active" id="chatTab">
+                        <div class="chat-container">
+                            <div class="chat-messages" id="chatMessages">
+                                <div class="message">
+                                    <div class="message-avatar">MS</div>
+                                    <div class="message-content">
+                                        <div class="message-text">Olá, Dr. Silva! Como está?</div>
+                                        <div class="message-time">14:32</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="message sent">
+                                    <div class="message-avatar">JS</div>
+                                    <div class="message-content">
+                                        <div class="message-text">Olá, Maria! Estou bem, obrigado. Como você está se sentindo hoje?</div>
+                                        <div class="message-time">14:33</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="message">
+                                    <div class="message-avatar">MS</div>
+                                    <div class="message-content">
+                                        <div class="message-text">Estou sentindo algumas dores no peito, principalmente quando faço esforço.</div>
+                                        <div class="message-time">14:34</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="message sent">
+                                    <div class="message-avatar">JS</div>
+                                    <div class="message-content">
+                                        <div class="message-text">Entendo. Vamos conversar sobre isso. Há quanto tempo você está sentindo essas dores?</div>
+                                        <div class="message-time">14:35</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="chat-input">
+                                <input type="text" id="messageInput" placeholder="Digite sua mensagem..." onkeypress="handleEnter(event)">
+                                <button class="send-btn" onclick="sendMessage()">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="notesTab">
+                        <div class="notes-container">
+                            <div class="notes-header">
+                                <h3>Anotações da Consulta</h3>
+                            </div>
+                            
+                            <div class="patient-info">
+                                <h4>Informações do Paciente</h4>
+                                <div class="info-row">
+                                    <span class="info-label">Nome:</span>
+                                    <span class="info-value">Maria Santos</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Idade:</span>
+                                    <span class="info-value">45 anos</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Última consulta:</span>
+                                    <span class="info-value">10/06/2025</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="info-label">Alergias:</span>
+                                    <span class="info-value">Penicilina</span>
+                                </div>
+                            </div>
+                            
+                            <textarea class="notes-textarea" placeholder="Digite suas anotações sobre a consulta...
+
+Queixa principal:
+- Dor no peito durante esforço físico
+
+Histórico:
+- Paciente relata dores há aproximadamente 2 semanas
+- Intensidade moderada (6/10)
+- Melhora com repouso
+
+Exame físico:
+- Pressão arterial: 140/90 mmHg
+- Frequência cardíaca: 85 bpm
+- Ausculta cardíaca: normal
+
+Conduta:
+- Solicitar ECG
+- Solicitar teste ergométrico
+- Prescrever medicação para controle da pressão
+- Retorno em 15 dias"></textarea>
+                            
+                            <div class="notes-actions">
+                                <button class="notes-btn secondary">Salvar Rascunho</button>
+                                <button class="notes-btn primary">Finalizar Consulta</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let micMuted = false;
+        let cameraOff = false;
+        let shareActive = false;
+        let startTime = Date.now();
+
+        // Timer da consulta
+        function updateTimer() {
+            const elapsed = Date.now() - startTime;
+            const minutes = Math.floor(elapsed / 60000);
+            const seconds = Math.floor((elapsed % 60000) / 1000);
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        setInterval(updateTimer, 1000);
+
+        // Controles de vídeo
+        function toggleMic() {
+            micMuted = !micMuted;
+            const btn = document.getElementById('micBtn');
+            const icon = btn.querySelector('i');
+            
+            if (micMuted) {
+                btn.classList.add('muted');
+                icon.className = 'fas fa-microphone-slash';
+            } else {
+                btn.classList.remove('muted');
+                icon.className = 'fas fa-microphone';
+            }
+        }
+
+        function toggleCamera() {
+            cameraOff = !cameraOff;
+            const btn = document.getElementById('cameraBtn');
+            const icon = btn.querySelector('i');
+            
+            if (cameraOff) {
+                btn.classList.add('off');
+                icon.className = 'fas fa-video-slash';
+            } else {
+                btn.classList.remove('off');
+                icon.className = 'fas fa-video';
+            }
+        }
+
+        function toggleShare() {
+            shareActive = !shareActive;
+            const btn = document.getElementById('shareBtn');
+            
+            if (shareActive) {
+                btn.classList.add('active');
+                alert('Compartilhamento de tela iniciado');
+            } else {
+                btn.classList.remove('active');
+                alert('Compartilhamento de tela encerrado');
+            }
+        }
+
+        // Tabs da sidebar
+        function switchTab(tabName) {
+            // Atualizar tabs
+            document.querySelectorAll('.sidebar-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Atualizar conteúdo
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName + 'Tab').classList.add('active');
+        }
+
+        // Chat
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                const chatMessages = document.getElementById('chatMessages');
+                const now = new Date();
+                const time = now.getHours().toString().padStart(2, '0') + ':' + 
+                           now.getMinutes().toString().padStart(2, '0');
+                
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message sent';
+                messageElement.innerHTML = `
+                    <div class="message-avatar">JS</div>
+                    <div class="message-content">
+                        <div class="message-text">${message}</div>
+                        <div class="message-time">${time}</div>
+                    </div>
+                `;
+                
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                input.value = '';
+            }
+        }
+
+        function handleEnter(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Encerrar chamada
+        function endCall() {
+            if (confirm('Tem certeza que deseja encerrar a teleconsulta?')) {
+                alert('Teleconsulta encerrada. Redirecionando para área de prescrições...');
+                // Aqui seria o redirecionamento para a tela de prescrições
+            }
+        }
+
+        // Salvar anotações
+        document.querySelectorAll('.notes-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.textContent.includes('Finalizar')) {
+                    if (confirm('Deseja finalizar a consulta e gerar a prescrição?')) {
+                        alert('Consulta finalizada! Redirecionando para área de prescrições...');
+                    }
+                } else {
+                    alert('Anotações salvas como rascunho.');
+                }
+            });
+        });
+
+        // Auto-scroll do chat
+        const chatMessages = document.getElementById('chatMessages');
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prontuários - VidaPlus</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    VidaPlus
+                </div>
+            </div>
+            <div class="nav-menu">
+                <a href="prototipo_dashboard_profissional.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    Início
+                </a>
+                <a href="profissional_agenda.html" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    Agenda
+                </a>
+                <a href="profissional_pacientes.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    Pacientes
+                </a>
+                <a href="profissional_prontuarios.html" class="nav-item active">
+                    <i class="fas fa-file-medical"></i>
+                    Prontuários
+                </a>
+                <a href="profissional_prescricoes.html" class="nav-item">
+                    <i class="fas fa-prescription"></i>
+                    Prescrições
+                </a>
+                <a href="profissional_relatorios.html" class="nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    Relatórios
+                </a>
+                <a href="profissional_perfil.html" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    Perfil
+                </a>
+                <a href="#" class="nav-item logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="page-title">
+                    <h1>Prontuários</h1>
+                    <p>Gerencie os prontuários médicos dos seus pacientes</p>
+                </div>
+                <div class="user-profile">
+                    <div class="profile-avatar">JS</div>
+                    <div class="profile-info">
+                        <h3>Dr. João Silva</h3>
+                        <p>Médico Cardiologista</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="prototipo_dashboard_profissional.html">Início</a>
+                <span class="breadcrumb-separator">></span>
+                <span>Prontuários</span>
+            </div>
+
+            <!-- Ações Rápidas -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Ações Rápidas</h3>
+                </div>
+                <div class="grid grid-4">
+                    <button class="btn btn-primary" onclick="novoProntuario()">
+                        <i class="fas fa-plus"></i>
+                        Novo Prontuário
+                    </button>
+                    <button class="btn btn-secondary" onclick="buscarProntuario()">
+                        <i class="fas fa-search"></i>
+                        Buscar Prontuário
+                    </button>
+                    <button class="btn btn-success" onclick="prontuariosRecentes()">
+                        <i class="fas fa-clock"></i>
+                        Recentes
+                    </button>
+                    <button class="btn btn-warning" onclick="prontuariosPendentes()">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Pendentes
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Filtros de Busca</h3>
+                </div>
+                <div class="search-filters">
+                    <div class="search-bar">
+                        <div class="search-input">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Buscar por paciente, diagnóstico ou CID..." id="searchInput">
+                        </div>
+                        <button class="btn btn-primary" onclick="buscarProntuarios()">Buscar</button>
+                    </div>
+                    <div class="filter-options">
+                        <select class="form-select" onchange="filtrarPorPeriodo(this.value)">
+                            <option value="todos">Todos os períodos</option>
+                            <option value="hoje">Hoje</option>
+                            <option value="semana">Esta semana</option>
+                            <option value="mes">Este mês</option>
+                            <option value="trimestre">Último trimestre</option>
+                        </select>
+                        <select class="form-select" onchange="filtrarPorStatus(this.value)">
+                            <option value="todos">Todos os status</option>
+                            <option value="completo">Completos</option>
+                            <option value="pendente">Pendentes</option>
+                            <option value="revisao">Em revisão</option>
+                        </select>
+                        <select class="form-select" onchange="filtrarPorTipo(this.value)">
+                            <option value="todos">Todos os tipos</option>
+                            <option value="consulta">Consulta</option>
+                            <option value="retorno">Retorno</option>
+                            <option value="emergencia">Emergência</option>
+                            <option value="teleconsulta">Teleconsulta</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de Prontuários -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Prontuários Recentes</h3>
+                    <span class="badge badge-info">24 prontuários</span>
+                </div>
+                <div class="prontuarios-list">
+                    <div class="prontuario-item">
+                        <div class="prontuario-header">
+                            <div class="patient-info">
+                                <div class="patient-avatar">MS</div>
+                                <div class="patient-details">
+                                    <h4>Maria Santos Silva</h4>
+                                    <p>45 anos • Unimed Premium</p>
+                                </div>
+                            </div>
+                            <div class="prontuario-meta">
+                                <span class="prontuario-date">15/07/2025 - 08:00</span>
+                                <span class="badge badge-success">Completo</span>
+                            </div>
+                        </div>
+                        <div class="prontuario-content">
+                            <div class="prontuario-summary">
+                                <div class="summary-item">
+                                    <strong>Tipo:</strong> Consulta de Retorno
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Diagnóstico:</strong> I10 - Hipertensão arterial essencial
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Queixa Principal:</strong> Acompanhamento de hipertensão arterial
+                                </div>
+                            </div>
+                            <div class="prontuario-details">
+                                <p><strong>Evolução:</strong> Paciente retorna para acompanhamento de hipertensão arterial. Refere boa aderência ao tratamento medicamentoso. PA: 130x80 mmHg. Exame físico sem alterações significativas.</p>
+                                <p><strong>Conduta:</strong> Manter Losartana 50mg 1x/dia. Orientações sobre dieta hipossódica e atividade física regular. Retorno em 3 meses.</p>
+                            </div>
+                        </div>
+                        <div class="prontuario-actions">
+                            <button class="btn btn-primary" onclick="editarProntuario(1)">
+                                <i class="fas fa-edit"></i>
+                                Editar
+                            </button>
+                            <button class="btn btn-secondary" onclick="verProntuario(1)">
+                                <i class="fas fa-eye"></i>
+                                Visualizar
+                            </button>
+                            <button class="btn btn-success" onclick="imprimirProntuario(1)">
+                                <i class="fas fa-print"></i>
+                                Imprimir
+                            </button>
+                            <button class="btn btn-info" onclick="compartilharProntuario(1)">
+                                <i class="fas fa-share"></i>
+                                Compartilhar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="prontuario-item">
+                        <div class="prontuario-header">
+                            <div class="patient-info">
+                                <div class="patient-avatar">CE</div>
+                                <div class="patient-details">
+                                    <h4>Carlos Eduardo Lima</h4>
+                                    <p>52 anos • Bradesco Saúde</p>
+                                </div>
+                            </div>
+                            <div class="prontuario-meta">
+                                <span class="prontuario-date">15/07/2025 - 08:30</span>
+                                <span class="badge badge-warning">Pendente</span>
+                            </div>
+                        </div>
+                        <div class="prontuario-content">
+                            <div class="prontuario-summary">
+                                <div class="summary-item">
+                                    <strong>Tipo:</strong> Primeira Consulta
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Diagnóstico:</strong> Em investigação
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Queixa Principal:</strong> Dor precordial há 2 semanas
+                                </div>
+                            </div>
+                            <div class="prontuario-details">
+                                <p><strong>HDA:</strong> Paciente refere dor precordial de início há 2 semanas, tipo aperto, que irradia para MSE, relacionada a esforços físicos.</p>
+                                <p><strong>Conduta:</strong> Solicitado ECG, Ecocardiograma e Teste Ergométrico. Prescrito AAS 100mg/dia. Retorno com exames.</p>
+                            </div>
+                        </div>
+                        <div class="prontuario-actions">
+                            <button class="btn btn-primary" onclick="editarProntuario(2)">
+                                <i class="fas fa-edit"></i>
+                                Completar
+                            </button>
+                            <button class="btn btn-secondary" onclick="verProntuario(2)">
+                                <i class="fas fa-eye"></i>
+                                Visualizar
+                            </button>
+                            <button class="btn btn-warning" onclick="solicitarExames(2)">
+                                <i class="fas fa-vial"></i>
+                                Exames
+                            </button>
+                            <button class="btn btn-success" onclick="prescreverMedicamento(2)">
+                                <i class="fas fa-prescription"></i>
+                                Prescrever
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="prontuario-item">
+                        <div class="prontuario-header">
+                            <div class="patient-info">
+                                <div class="patient-avatar">AP</div>
+                                <div class="patient-details">
+                                    <h4>Ana Paula Costa</h4>
+                                    <p>38 anos • Amil</p>
+                                </div>
+                            </div>
+                            <div class="prontuario-meta">
+                                <span class="prontuario-date">14/07/2025 - 15:00</span>
+                                <span class="badge badge-success">Completo</span>
+                            </div>
+                        </div>
+                        <div class="prontuario-content">
+                            <div class="prontuario-summary">
+                                <div class="summary-item">
+                                    <strong>Tipo:</strong> Consulta de Acompanhamento
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Diagnóstico:</strong> Z00.0 - Exame médico geral
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Queixa Principal:</strong> Check-up de rotina
+                                </div>
+                            </div>
+                            <div class="prontuario-details">
+                                <p><strong>Evolução:</strong> Paciente assintomática, procura consulta para check-up de rotina. Exame físico normal. Exames laboratoriais dentro da normalidade.</p>
+                                <p><strong>Conduta:</strong> Orientações sobre hábitos saudáveis. Manter atividade física regular. Retorno anual para check-up.</p>
+                            </div>
+                        </div>
+                        <div class="prontuario-actions">
+                            <button class="btn btn-primary" onclick="editarProntuario(3)">
+                                <i class="fas fa-edit"></i>
+                                Editar
+                            </button>
+                            <button class="btn btn-secondary" onclick="verProntuario(3)">
+                                <i class="fas fa-eye"></i>
+                                Visualizar
+                            </button>
+                            <button class="btn btn-success" onclick="imprimirProntuario(3)">
+                                <i class="fas fa-print"></i>
+                                Imprimir
+                            </button>
+                            <button class="btn btn-info" onclick="agendarRetorno(3)">
+                                <i class="fas fa-calendar"></i>
+                                Agendar Retorno
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="prontuario-item teleconsulta">
+                        <div class="prontuario-header">
+                            <div class="patient-info">
+                                <div class="patient-avatar">RS</div>
+                                <div class="patient-details">
+                                    <h4>Roberto Silva Santos</h4>
+                                    <p>61 anos • Unimed</p>
+                                </div>
+                            </div>
+                            <div class="prontuario-meta">
+                                <span class="prontuario-date">14/07/2025 - 14:00</span>
+                                <span class="badge badge-info">Teleconsulta</span>
+                            </div>
+                        </div>
+                        <div class="prontuario-content">
+                            <div class="prontuario-summary">
+                                <div class="summary-item">
+                                    <strong>Tipo:</strong> Teleconsulta - Retorno
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Diagnóstico:</strong> E11 - Diabetes mellitus tipo 2
+                                </div>
+                                <div class="summary-item">
+                                    <strong>Queixa Principal:</strong> Acompanhamento de diabetes
+                                </div>
+                            </div>
+                            <div class="prontuario-details">
+                                <p><strong>Evolução:</strong> Teleconsulta para acompanhamento de diabetes. Paciente refere glicemias controladas. HbA1c: 6.8%. Sem queixas.</p>
+                                <p><strong>Conduta:</strong> Manter Metformina 850mg 2x/dia. Orientações dietéticas reforçadas. Retorno em 3 meses.</p>
+                            </div>
+                        </div>
+                        <div class="prontuario-actions">
+                            <button class="btn btn-primary" onclick="editarProntuario(4)">
+                                <i class="fas fa-edit"></i>
+                                Editar
+                            </button>
+                            <button class="btn btn-secondary" onclick="verProntuario(4)">
+                                <i class="fas fa-eye"></i>
+                                Visualizar
+                            </button>
+                            <button class="btn btn-success" onclick="imprimirProntuario(4)">
+                                <i class="fas fa-print"></i>
+                                Imprimir
+                            </button>
+                            <button class="btn btn-warning" onclick="novaReceita(4)">
+                                <i class="fas fa-prescription-bottle"></i>
+                                Nova Receita
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="grid grid-4">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-medical"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>156</h3>
+                        <p>Prontuários Total</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>142</h3>
+                        <p>Completos</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>14</h3>
+                        <p>Pendentes</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>8</h3>
+                        <p>Hoje</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/navigation.js"></script>
+    <script>
+        function novoProntuario() {
+            navigation.navigateTo('profissional_novo_prontuario.html');
+        }
+
+        function buscarProntuario() {
+            document.getElementById('searchInput').focus();
+        }
+
+        function prontuariosRecentes() {
+            navigation.showNotification('Mostrando prontuários recentes', 'info');
+            // Aqui filtraria para mostrar apenas os recentes
+        }
+
+        function prontuariosPendentes() {
+            navigation.showNotification('Mostrando prontuários pendentes', 'warning');
+            // Aqui filtraria para mostrar apenas os pendentes
+        }
+
+        function buscarProntuarios() {
+            const searchTerm = document.getElementById('searchInput').value;
+            navigation.showNotification(`Buscando por: ${searchTerm}`, 'info');
+            // Aqui implementaria a lógica de busca
+        }
+
+        function filtrarPorPeriodo(periodo) {
+            navigation.showNotification(`Filtrando por período: ${periodo}`, 'info');
+        }
+
+        function filtrarPorStatus(status) {
+            navigation.showNotification(`Filtrando por status: ${status}`, 'info');
+        }
+
+        function filtrarPorTipo(tipo) {
+            navigation.showNotification(`Filtrando por tipo: ${tipo}`, 'info');
+        }
+
+        function editarProntuario(id) {
+            navigation.navigateTo(`profissional_editar_prontuario.html?id=${id}`);
+        }
+
+        function verProntuario(id) {
+            navigation.navigateTo(`profissional_ver_prontuario.html?id=${id}`);
+        }
+
+        function imprimirProntuario(id) {
+            navigation.showNotification('Preparando impressão do prontuário...', 'info');
+            setTimeout(() => {
+                navigation.showNotification('Prontuário enviado para impressão!', 'success');
+            }, 2000);
+        }
+
+        function compartilharProntuario(id) {
+            navigation.showNotification('Gerando link de compartilhamento...', 'info');
+            setTimeout(() => {
+                navigation.showNotification('Link copiado para área de transferência!', 'success');
+            }, 1500);
+        }
+
+        function solicitarExames(id) {
+            navigation.navigateTo(`profissional_solicitar_exames.html?paciente=${id}`);
+        }
+
+        function prescreverMedicamento(id) {
+            navigation.navigateTo(`profissional_prescricoes.html?novo=true&paciente=${id}`);
+        }
+
+        function agendarRetorno(id) {
+            navigation.navigateTo(`profissional_agendar_consulta.html?paciente=${id}&tipo=retorno`);
+        }
+
+        function novaReceita(id) {
+            navigation.navigateTo(`profissional_nova_receita.html?paciente=${id}`);
+        }
+    </script>
+
+    <style>
+        .search-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6B7280;
+        }
+
+        .search-input input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .form-select {
+            padding: 8px 12px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            background: white;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .prontuarios-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .prontuario-item {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #E5E7EB;
+            border-left: 4px solid #2563EB;
+        }
+
+        .prontuario-item.teleconsulta {
+            border-left-color: #0EA5E9;
+        }
+
+        .prontuario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .patient-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .patient-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .patient-details h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .patient-details p {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        .prontuario-meta {
+            text-align: right;
+        }
+
+        .prontuario-date {
+            display: block;
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 8px;
+        }
+
+        .prontuario-content {
+            margin-bottom: 20px;
+        }
+
+        .prontuario-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #F8FAFC;
+            border-radius: 10px;
+        }
+
+        .summary-item {
+            font-size: 14px;
+            color: #374151;
+        }
+
+        .summary-item strong {
+            color: #1F2937;
+        }
+
+        .prontuario-details {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #374151;
+        }
+
+        .prontuario-details p {
+            margin-bottom: 15px;
+        }
+
+        .prontuario-details strong {
+            color: #1F2937;
+        }
+
+        .prontuario-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .prontuario-actions .btn {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .stat-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        @media (max-width: 768px) {
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .filter-options {
+                flex-direction: column;
+            }
+
+            .prontuario-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .prontuario-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .prontuario-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</body>
+</html>
+

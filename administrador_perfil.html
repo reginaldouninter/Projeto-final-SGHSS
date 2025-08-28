@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Administrador - VidaPlus</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    VidaPlus
+                </div>
+            </div>
+            <div class="nav-menu">
+                <a href="prototipo_dashboard_administrador.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    Início
+                </a>
+                <a href="administrador_usuarios.html" class="nav-item">
+                    <i class="fas fa-users-cog"></i>
+                    Usuários
+                </a>
+                <a href="administrador_consultas.html" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    Consultas
+                </a>
+                <a href="administrador_financeiro.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Financeiro
+                </a>
+                <a href="administrador_relatorios.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    Relatórios
+                </a>
+                <a href="administrador_sistema.html" class="nav-item">
+                    <i class="fas fa-cogs"></i>
+                    Sistema
+                </a>
+                <a href="administrador_perfil.html" class="nav-item active">
+                    <i class="fas fa-user"></i>
+                    Perfil
+                </a>
+                <a href="#" class="nav-item logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="page-title">
+                    <h1>Meu Perfil</h1>
+                    <p>Gerencie suas informações pessoais e configurações de conta</p>
+                </div>
+                <div class="user-profile">
+                    <div class="profile-avatar">AS</div>
+                    <div class="profile-info">
+                        <h3>Ana Santos</h3>
+                        <p>Administrador do Sistema</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="prototipo_dashboard_administrador.html">Início</a>
+                <span class="breadcrumb-separator">></span>
+                <span>Perfil</span>
+            </div>
+
+            <!-- Informações Pessoais -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Informações Pessoais</h3>
+                    <button class="btn btn-secondary" onclick="editarPerfil()">
+                        <i class="fas fa-edit"></i>
+                        Editar
+                    </button>
+                </div>
+                <form class="profile-form" id="profileForm">
+                    <div class="profile-photo-section">
+                        <div class="current-photo">
+                            <div class="photo-placeholder">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <div class="photo-actions">
+                            <button type="button" class="btn btn-primary" onclick="alterarFoto()">
+                                <i class="fas fa-camera"></i>
+                                Alterar Foto
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="removerFoto()">
+                                <i class="fas fa-trash"></i>
+                                Remover
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nome">Nome Completo</label>
+                            <input type="text" id="nome" value="Ana Santos Silva" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" value="ana.santos@vidaplus.com.br" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="telefone">Telefone</label>
+                            <input type="tel" id="telefone" value="(11) 99999-9999" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="cargo">Cargo</label>
+                            <input type="text" id="cargo" value="Administrador do Sistema" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="departamento">Departamento</label>
+                            <input type="text" id="departamento" value="Tecnologia da Informação" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="dataAdmissao">Data de Admissão</label>
+                            <input type="date" id="dataAdmissao" value="2023-01-15" disabled>
+                        </div>
+                    </div>
+
+                    <div class="form-actions" style="display: none;" id="formActions">
+                        <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                        <button type="button" class="btn btn-secondary" onclick="cancelarEdicao()">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Configurações de Segurança -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Configurações de Segurança</h3>
+                </div>
+                <div class="security-section">
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h4>Alterar Senha</h4>
+                            <p>Última alteração: 30 dias atrás</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="alterarSenha()">
+                            <i class="fas fa-key"></i>
+                            Alterar Senha
+                        </button>
+                    </div>
+
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h4>Autenticação de Dois Fatores</h4>
+                            <p>Adicione uma camada extra de segurança à sua conta</p>
+                        </div>
+                        <div class="security-status">
+                            <span class="badge badge-success">Ativo</span>
+                            <button class="btn btn-secondary" onclick="configurar2FA()">
+                                <i class="fas fa-cog"></i>
+                                Configurar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="security-item">
+                        <div class="security-info">
+                            <h4>Sessões Ativas</h4>
+                            <p>Gerencie dispositivos conectados à sua conta</p>
+                        </div>
+                        <button class="btn btn-secondary" onclick="gerenciarSessoes()">
+                            <i class="fas fa-devices"></i>
+                            Ver Sessões
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preferências -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Preferências</h3>
+                </div>
+                <div class="preferences-section">
+                    <div class="preference-item">
+                        <div class="preference-info">
+                            <h4>Notificações por E-mail</h4>
+                            <p>Receber notificações importantes por e-mail</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="preference-item">
+                        <div class="preference-info">
+                            <h4>Notificações Push</h4>
+                            <p>Receber notificações em tempo real no navegador</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="preference-item">
+                        <div class="preference-info">
+                            <h4>Tema Escuro</h4>
+                            <p>Usar tema escuro na interface</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="preference-item">
+                        <div class="preference-info">
+                            <h4>Idioma</h4>
+                            <p>Idioma da interface do sistema</p>
+                        </div>
+                        <select class="form-select">
+                            <option value="pt-BR" selected>Português (Brasil)</option>
+                            <option value="en-US">English (US)</option>
+                            <option value="es-ES">Español</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Atividade Recente -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Atividade Recente</h3>
+                    <button class="btn btn-secondary" onclick="verTodasAtividades()">
+                        Ver Todas
+                    </button>
+                </div>
+                <div class="activity-list">
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="activity-info">
+                            <h4>Aprovou cadastro de profissional</h4>
+                            <p>Dr. Carlos Lima foi aprovado como cardiologista</p>
+                            <span class="activity-time">2 horas atrás</span>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="activity-info">
+                            <h4>Atualizou configurações do sistema</h4>
+                            <p>Configurações de segurança foram modificadas</p>
+                            <span class="activity-time">1 dia atrás</span>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="activity-info">
+                            <h4>Gerou relatório financeiro</h4>
+                            <p>Relatório mensal de receitas e despesas</p>
+                            <span class="activity-time">3 dias atrás</span>
+                        </div>
+                    </div>
+
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="activity-info">
+                            <h4>Executou backup do sistema</h4>
+                            <p>Backup manual dos dados do sistema</p>
+                            <span class="activity-time">1 semana atrás</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estatísticas Pessoais -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Suas Estatísticas</h3>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>156</h3>
+                            <p>Ações Realizadas</p>
+                            <span class="stat-period">Este mês</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>23</h3>
+                            <p>Usuários Aprovados</p>
+                            <span class="stat-period">Este mês</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>8</h3>
+                            <p>Relatórios Gerados</p>
+                            <span class="stat-period">Este mês</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>42h</h3>
+                            <p>Tempo Online</p>
+                            <span class="stat-period">Esta semana</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/navigation.js"></script>
+    <script>
+        let isEditing = false;
+
+        function editarPerfil() {
+            isEditing = true;
+            const inputs = document.querySelectorAll('#profileForm input:not([type="date"])');
+            const formActions = document.getElementById('formActions');
+            
+            inputs.forEach(input => {
+                if (input.id !== 'email' && input.id !== 'dataAdmissao') {
+                    input.disabled = false;
+                    input.style.backgroundColor = '#fff';
+                }
+            });
+            
+            formActions.style.display = 'flex';
+            navigation.showNotification('Modo de edição ativado', 'info');
+        }
+
+        function cancelarEdicao() {
+            isEditing = false;
+            const inputs = document.querySelectorAll('#profileForm input');
+            const formActions = document.getElementById('formActions');
+            
+            inputs.forEach(input => {
+                input.disabled = true;
+                input.style.backgroundColor = '#f9fafb';
+            });
+            
+            formActions.style.display = 'none';
+            navigation.showNotification('Edição cancelada', 'info');
+        }
+
+        function alterarFoto() {
+            navigation.showNotification('Funcionalidade de upload de foto em desenvolvimento', 'info');
+        }
+
+        function removerFoto() {
+            navigation.confirmAction('Remover foto do perfil?', () => {
+                navigation.showNotification('Foto removida com sucesso!', 'success');
+            });
+        }
+
+        function alterarSenha() {
+            navigation.navigateTo('administrador_alterar_senha.html');
+        }
+
+        function configurar2FA() {
+            navigation.navigateTo('administrador_configurar_2fa.html');
+        }
+
+        function gerenciarSessoes() {
+            navigation.navigateTo('administrador_gerenciar_sessoes.html');
+        }
+
+        function verTodasAtividades() {
+            navigation.navigateTo('administrador_historico_atividades.html');
+        }
+
+        // Event listener para o formulário de perfil
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            navigation.showNotification('Perfil atualizado com sucesso!', 'success');
+            cancelarEdicao();
+        });
+    </script>
+
+    <style>
+        .profile-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .profile-photo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: #F8FAFC;
+            border-radius: 10px;
+        }
+
+        .current-photo {
+            width: 100px;
+            height: 100px;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 40px;
+        }
+
+        .photo-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .photo-actions .btn {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            padding: 12px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 14px;
+            background: #f9fafb;
+        }
+
+        .form-group input:disabled {
+            background: #f9fafb;
+            color: #6B7280;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            padding-top: 20px;
+            border-top: 1px solid #E5E7EB;
+        }
+
+        .security-section,
+        .preferences-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .security-item,
+        .preference-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #F8FAFC;
+            border-radius: 10px;
+        }
+
+        .security-info,
+        .preference-info {
+            flex: 1;
+        }
+
+        .security-info h4,
+        .preference-info h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .security-info p,
+        .preference-info p {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        .security-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2563EB;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .form-select {
+            padding: 8px 12px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            background: white;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #F8FAFC;
+            border-radius: 10px;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-info h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .activity-info p {
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 3px;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: #9CA3AF;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: #F8FAFC;
+            border-radius: 10px;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .stat-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 3px;
+        }
+
+        .stat-period {
+            font-size: 12px;
+            color: #9CA3AF;
+        }
+
+        @media (max-width: 768px) {
+            .profile-photo-section {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .photo-actions {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .security-item,
+            .preference-item {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .security-status {
+                justify-content: center;
+            }
+
+            .activity-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</body>
+</html>
+

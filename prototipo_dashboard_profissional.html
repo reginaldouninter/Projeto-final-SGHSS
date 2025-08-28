@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidaPlus - Dashboard do Profissional</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    VidaPlus
+                </div>
+            </div>
+            
+            <div class="nav-menu">
+                <a href="prototipo_dashboard_profissional.html" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    Início
+                </a>
+                <a href="profissional_agenda.html" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    Agenda
+                </a>
+                <a href="profissional_pacientes.html" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    Pacientes
+                </a>
+                <a href="profissional_prontuarios.html" class="nav-item">
+                    <i class="fas fa-file-medical"></i>
+                    Prontuários
+                </a>
+                <a href="profissional_prescricoes.html" class="nav-item">
+                    <i class="fas fa-prescription"></i>
+                    Prescrições
+                </a>
+                <a href="profissional_relatorios.html" class="nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    Relatórios
+                </a>
+                <a href="profissional_perfil.html" class="nav-item">
+                    <i class="fas fa-user-cog"></i>
+                    Meu Perfil
+                </a>
+                <a href="prototipo_login.html" class="nav-item logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </a>
+            </div>
+        </nav>
+        
+        <main class="main-content">
+            <header class="page-header">
+                <div class="page-title">
+                    <h1>Bem-vindo(a), Dr. João!</h1>
+                    <p>Gerencie suas consultas e acompanhe seus pacientes</p>
+                </div>
+                
+                <div class="user-profile">
+                    <div class="profile-avatar">JS</div>
+                    <div class="profile-info">
+                        <h3>Dr. João Silva</h3>
+                        <p>Cardiologista</p>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon consultations">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                    </div>
+                    <div class="metric-number" id="consultasHoje">8</div>
+                    <div class="metric-label">Consultas Hoje</div>
+                    <div class="metric-change positive">+2 vs ontem</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon upcoming">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                    </div>
+                    <div class="metric-number" id="proximasConsultas">12</div>
+                    <div class="metric-label">Próximas Consultas</div>
+                    <div class="metric-change neutral">Esta semana</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon patients">
+                            <i class="fas fa-user-injured"></i>
+                        </div>
+                    </div>
+                    <div class="metric-number" id="pacientesAtivos">156</div>
+                    <div class="metric-label">Pacientes Ativos</div>
+                    <div class="metric-change positive">+8 este mês</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <div class="metric-icon prescriptions">
+                            <i class="fas fa-prescription"></i>
+                        </div>
+                    </div>
+                    <div class="metric-number" id="prescricoesPendentes">3</div>
+                    <div class="metric-label">Prescrições Pendentes</div>
+                    <div class="metric-change warning">Requer atenção</div>
+                </div>
+            </div>
+            
+            <div class="content-grid">
+                <div class="chart-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Consultas da Semana</h2>
+                        <div class="time-filter">
+                            <button class="filter-btn" onclick="updateChartData('7d')">7 dias</button>
+                            <button class="filter-btn active" onclick="updateChartData('30d')">30 dias</button>
+                            <button class="filter-btn" onclick="updateChartData('90d')">90 dias</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="consultasChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="quick-actions-section">
+                    <div class="quick-actions-card">
+                        <h3 class="section-title" style="margin-bottom: 20px;">Acesso Rápido</h3>
+                        
+                        <div class="quick-action-item">
+                            <div class="action-info">
+                                <h4>Nova Consulta</h4>
+                                <p>Agendar nova consulta</p>
+                            </div>
+                            <button class="action-btn" id="btnNovaConsulta" onclick="dashboardProfissional.novaConsulta()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="quick-action-item">
+                            <div class="action-info">
+                                <h4>Ver Agenda</h4>
+                                <p>Visualizar agenda completa</p>
+                            </div>
+                            <button class="action-btn" id="btnVerAgenda" onclick="dashboardProfissional.verAgenda()">
+                                <i class="fas fa-calendar-alt"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="quick-action-item">
+                            <div class="action-info">
+                                <h4>Pacientes</h4>
+                                <p>Gerenciar pacientes</p>
+                            </div>
+                            <button class="action-btn" id="btnPacientes" onclick="dashboardProfissional.gerenciarPacientes()">
+                                <i class="fas fa-users"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="quick-action-item">
+                            <div class="action-info">
+                                <h4>Prescrições</h4>
+                                <p>Criar nova prescrição</p>
+                            </div>
+                            <button class="action-btn" id="btnPrescricoes" onclick="dashboardProfissional.criarPrescricao()">
+                                <i class="fas fa-prescription"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="appointments-section">
+                <div class="appointments-today">
+                    <div class="section-header">
+                        <h3 class="section-title">Consultas de Hoje</h3>
+                        <span class="badge badge-info">8 consultas</span>
+                    </div>
+                    <div id="consultasHojeContainer" class="appointments-list">
+                        <!-- Consultas serão carregadas via JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="upcoming-appointments">
+                    <div class="section-header">
+                        <h3 class="section-title">Próximas Consultas</h3>
+                        <button class="btn btn-secondary" onclick="dashboardProfissional.verAgenda()">Ver Todas</button>
+                    </div>
+                    <div id="proximasConsultasContainer" class="appointments-list">
+                        <!-- Próximas consultas serão carregadas via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/navigation.js"></script>
+    <script src="js/dashboard-profissional.js"></script>
+    <script>
+        // Gráfico de consultas
+        const ctx = document.getElementById('consultasChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+                datasets: [{
+                    label: 'Consultas',
+                    data: [5, 8, 6, 9, 7, 4, 3],
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    borderColor: 'rgba(59, 130, 246, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            display: false
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    </script>
+
+    <style>
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .metric-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #059669, #3B82F6, #F59E0B, #EC4899);
+        }
+        
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .metric-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+        
+        .metric-icon.consultations {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+        
+        .metric-icon.upcoming {
+            background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+        }
+        
+        .metric-icon.patients {
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+        }
+        
+        .metric-icon.prescriptions {
+            background: linear-gradient(135deg, #EC4899 0%, #DB2777 100%);
+        }
+        
+        .metric-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 14px;
+            color: #6B7280;
+            font-weight: 500;
+        }
+        
+        .metric-change {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        
+        .metric-change.positive {
+            background: #DCFCE7;
+            color: #16A34A;
+        }
+        
+        .metric-change.negative {
+            background: #FEE2E2;
+            color: #DC2626;
+        }
+        
+        .metric-change.neutral {
+            background: #F3F4F6;
+            color: #6B7280;
+        }
+        
+        .metric-change.warning {
+            background: #FEF3C7;
+            color: #D97706;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .chart-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1F2937;
+        }
+        
+        .time-filter {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid #E5E7EB;
+            background: white;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: #059669;
+            color: white;
+            border-color: #059669;
+        }
+        
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+        
+        .quick-actions-section {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .quick-actions-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .quick-action-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #F3F4F6;
+        }
+        
+        .quick-action-item:last-child {
+            border-bottom: none;
+        }
+        
+        .action-info h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+        
+        .action-info p {
+            font-size: 14px;
+            color: #6B7280;
+        }
+        
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #059669;
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: #047857;
+            transform: translateY(-2px);
+        }
+        
+        .appointments-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .appointments-today,
+        .upcoming-appointments {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .appointments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .consulta-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #F8FAFC;
+            border-radius: 10px;
+            border-left: 4px solid #059669;
+        }
+        
+        .consulta-info h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+        
+        .consulta-info p {
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 5px;
+        }
+        
+        .status {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+        }
+        
+        .status.agendada {
+            background: #DBEAFE;
+            color: #1D4ED8;
+        }
+        
+        .status.em-andamento {
+            background: #FEF3C7;
+            color: #D97706;
+        }
+        
+        .status.concluida {
+            background: #DCFCE7;
+            color: #16A34A;
+        }
+        
+        .consulta-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .consulta-actions .btn {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .appointments-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</body>
+</html>
+

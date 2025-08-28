@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Consultas - VidaPlus</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    VidaPlus
+                </div>
+            </div>
+            <div class="nav-menu">
+                <a href="prototipo_dashboard_administrador.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    Início
+                </a>
+                <a href="administrador_usuarios.html" class="nav-item">
+                    <i class="fas fa-users-cog"></i>
+                    Usuários
+                </a>
+                <a href="administrador_consultas.html" class="nav-item active">
+                    <i class="fas fa-calendar-alt"></i>
+                    Consultas
+                </a>
+                <a href="administrador_financeiro.html" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Financeiro
+                </a>
+                <a href="administrador_relatorios.html" class="nav-item">
+                    <i class="fas fa-file-alt"></i>
+                    Relatórios
+                </a>
+                <a href="administrador_sistema.html" class="nav-item">
+                    <i class="fas fa-cogs"></i>
+                    Sistema
+                </a>
+                <a href="administrador_perfil.html" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    Perfil
+                </a>
+                <a href="#" class="nav-item logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="page-title">
+                    <h1>Gestão de Consultas</h1>
+                    <p>Gerencie e monitore todas as consultas agendadas no sistema</p>
+                </div>
+                <div class="user-profile">
+                    <div class="profile-avatar">AS</div>
+                    <div class="profile-info">
+                        <h3>Ana Santos</h3>
+                        <p>Administrador do Sistema</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="prototipo_dashboard_administrador.html">Início</a>
+                <span class="breadcrumb-separator">></span>
+                <span>Consultas</span>
+            </div>
+
+            <!-- Estatísticas de Consultas -->
+            <div class="grid grid-4">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>5,230</h3>
+                        <p>Consultas Agendadas</p>
+                        <span class="stat-change positive">+15% este mês</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>1,280</h3>
+                        <p>Consultas Realizadas</p>
+                        <span class="stat-change positive">+10% este mês</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-times"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>125</h3>
+                        <p>Consultas Canceladas</p>
+                        <span class="stat-change negative">-5% este mês</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>450</h3>
+                        <p>Teleconsultas</p>
+                        <span class="stat-change positive">+20% este mês</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ações Rápidas -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Ações Rápidas</h3>
+                </div>
+                <div class="grid grid-4">
+                    <button class="btn btn-primary" onclick="novaConsulta()">
+                        <i class="fas fa-plus"></i>
+                        Nova Consulta
+                    </button>
+                    <button class="btn btn-secondary" onclick="verAgendaGeral()">
+                        <i class="fas fa-calendar-alt"></i>
+                        Agenda Geral
+                    </button>
+                    <button class="btn btn-success" onclick="consultasHoje()">
+                        <i class="fas fa-clock"></i>
+                        Consultas de Hoje
+                    </button>
+                    <button class="btn btn-warning" onclick="consultasPendentes()">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Pendentes
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Filtros de Busca</h3>
+                </div>
+                <div class="search-filters">
+                    <div class="search-bar">
+                        <div class="search-input">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Buscar por paciente, profissional, tipo ou status..." id="searchInput">
+                        </div>
+                        <button class="btn btn-primary" onclick="buscarConsultas()">Buscar</button>
+                    </div>
+                    <div class="filter-options">
+                        <select class="form-select" onchange="filtrarPorTipo(this.value)">
+                            <option value="todos">Todos os tipos</option>
+                            <option value="presencial">Presencial</option>
+                            <option value="teleconsulta">Teleconsulta</option>
+                            <option value="retorno">Retorno</option>
+                        </select>
+                        <select class="form-select" onchange="filtrarPorStatus(this.value)">
+                            <option value="todos">Todos os status</option>
+                            <option value="agendada">Agendada</option>
+                            <option value="realizada">Realizada</option>
+                            <option value="cancelada">Cancelada</option>
+                            <option value="remarcada">Remarcada</option>
+                        </select>
+                        <select class="form-select" onchange="filtrarPorProfissional(this.value)">
+                            <option value="todos">Todos os Profissionais</option>
+                            <option value="dr-joao">Dr. João Silva</option>
+                            <option value="dra-ana">Dra. Ana Costa</option>
+                            <option value="dr-carlos">Dr. Carlos Lima</option>
+                        </select>
+                        <input type="date" class="form-select" placeholder="Data da consulta" onchange="filtrarPorData(this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de Consultas -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Próximas Consultas</h3>
+                    <span class="badge badge-info">24 consultas</span>
+                </div>
+                <div class="consultas-list">
+                    <div class="consulta-item">
+                        <div class="consulta-header">
+                            <div class="patient-info">
+                                <div class="patient-avatar">MS</div>
+                                <div class="patient-details">
+                                    <h4>Maria Santos Silva</h4>
+                                    <p>Paciente • 45 anos</p>
+                                </div>
+                            </div>
+                            <div class="consulta-meta">
+                                <span class="consulta-date">16/07/2025 - 10:00</span>
+                                <span class="badge badge-primary">Agendada</span>
+                            </div>
+                        </div>
+                        <div class="consulta-content">
+                            <div class="info-row">
+                                <strong>Profissional:</strong> Dr. João Silva (Cardiologista)
+                            </div>
+                            <div class="info-row">
+                                <strong>Tipo:</strong> Consulta Presencial
+                            </div>
+                            <div class="info-row">
+                                <strong>Convênio:</strong> Unimed Premium
+                            </div>
+                            <div class="info-row">
+                                <strong>Observações:</strong> Retorno para acompanhamento de hipertensão.
+                            </div>
+                        </div>
+                        <div class="consulta-actions">
+                            <button class="btn btn-primary" onclick="editarConsulta(1)">
+                                <i class="fas fa-edit"></i>
+                                Editar
+                            </button>
+                            <button class="btn btn-secondary" onclick="verDetalhesConsulta(1)">
+                                <i class="fas fa-eye"></i>
+                                Detalhes
+                            </button>
+                            <button class="btn btn-warning" onclick="remarcarConsulta(1)">
+                                <i class="fas fa-calendar-alt"></i>
+                                Remarcar
+                            </button>
+                            <button class="btn btn-danger" onclick="cancelarConsulta(1)">
+                                <i class="fas fa-times"></i>
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="consulta-item teleconsulta">
+                        <div class="consulta-header">
+                            <div class="patient-info">
+                                <div class="patient-avatar">CE</div>
+                                <div class="patient-details">
+                                    <h4>Carlos Eduardo Lima</h4>
+                                    <p>Paciente • 52 anos</p>
+                                </div>
+                            </div>
+                            <div class="consulta-meta">
+                                <span class="consulta-date">16/07/2025 - 11:30</span>
+                                <span class="badge badge-info">Teleconsulta</span>
+                            </div>
+                        </div>
+                        <div class="consulta-content">
+                            <div class="info-row">
+                                <strong>Profissional:</strong> Dra. Ana Costa (Clínica Geral)
+                            </div>
+                            <div class="info-row">
+                                <strong>Tipo:</strong> Teleconsulta
+                            </div>
+                            <div class="info-row">
+                                <strong>Convênio:</strong> Bradesco Saúde
+                            </div>
+                            <div class="info-row">
+                                <strong>Observações:</strong> Dúvidas sobre resultados de exames.
+                            </div>
+                        </div>
+                        <div class="consulta-actions">
+                            <button class="btn btn-primary" onclick="editarConsulta(2)">
+                                <i class="fas fa-edit"></i>
+                                Editar
+                            </button>
+                            <button class="btn btn-secondary" onclick="verDetalhesConsulta(2)">
+                                <i class="fas fa-eye"></i>
+                                Detalhes
+                            </button>
+                            <button class="btn btn-success" onclick="iniciarTeleconsulta(2)">
+                                <i class="fas fa-video"></i>
+                                Iniciar
+                            </button>
+                            <button class="btn btn-danger" onclick="cancelarConsulta(2)">
+                                <i class="fas fa-times"></i>
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="consulta-item realizada">
+                        <div class="consulta-header">
+                            <div class="patient-info">
+                                <div class="patient-avatar">AP</div>
+                                <div class="patient-details">
+                                    <h4>Ana Paula Costa</h4>
+                                    <p>Paciente • 38 anos</p>
+                                </div>
+                            </div>
+                            <div class="consulta-meta">
+                                <span class="consulta-date">15/07/2025 - 09:00</span>
+                                <span class="badge badge-success">Realizada</span>
+                            </div>
+                        </div>
+                        <div class="consulta-content">
+                            <div class="info-row">
+                                <strong>Profissional:</strong> Dr. João Silva (Cardiologista)
+                            </div>
+                            <div class="info-row">
+                                <strong>Tipo:</strong> Consulta Presencial
+                            </div>
+                            <div class="info-row">
+                                <strong>Convênio:</strong> Amil
+                            </div>
+                            <div class="info-row">
+                                <strong>Observações:</strong> Check-up de rotina.
+                            </div>
+                        </div>
+                        <div class="consulta-actions">
+                            <button class="btn btn-secondary" onclick="verDetalhesConsulta(3)">
+                                <i class="fas fa-eye"></i>
+                                Detalhes
+                            </button>
+                            <button class="btn btn-info" onclick="verProntuario(3)">
+                                <i class="fas fa-file-medical"></i>
+                                Prontuário
+                            </button>
+                            <button class="btn btn-success" onclick="gerarAtestado(3)">
+                                <i class="fas fa-file-signature"></i>
+                                Atestado
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paginação -->
+                <div class="pagination">
+                    <button class="btn btn-secondary" onclick="previousPage()">
+                        <i class="fas fa-chevron-left"></i>
+                        Anterior
+                    </button>
+                    <div class="page-numbers">
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <span class="page-dots">...</span>
+                        <button class="page-btn">20</button>
+                    </div>
+                    <button class="btn btn-secondary" onclick="nextPage()">
+                        Próximo
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/navigation.js"></script>
+    <script>
+        function novaConsulta() {
+            navigation.navigateTo("administrador_nova_consulta.html");
+        }
+
+        function verAgendaGeral() {
+            navigation.navigateTo("administrador_agenda_geral.html");
+        }
+
+        function consultasHoje() {
+            navigation.showNotification("Mostrando consultas agendadas para hoje", "info");
+            // Lógica para filtrar consultas de hoje
+        }
+
+        function consultasPendentes() {
+            navigation.showNotification("Mostrando consultas pendentes de ação", "info");
+            // Lógica para filtrar consultas pendentes
+        }
+
+        function buscarConsultas() {
+            const searchTerm = document.getElementById("searchInput").value;
+            navigation.showNotification(`Buscando por: ${searchTerm}`, "info");
+            // Lógica de busca
+        }
+
+        function filtrarPorTipo(tipo) {
+            navigation.showNotification(`Filtrando por tipo: ${tipo}`, "info");
+        }
+
+        function filtrarPorStatus(status) {
+            navigation.showNotification(`Filtrando por status: ${status}`, "info");
+        }
+
+        function filtrarPorProfissional(profissional) {
+            navigation.showNotification(`Filtrando por profissional: ${profissional}`, "info");
+        }
+
+        function filtrarPorData(data) {
+            navigation.showNotification(`Filtrando por data: ${data}`, "info");
+        }
+
+        function editarConsulta(id) {
+            navigation.navigateTo(`administrador_editar_consulta.html?id=${id}`);
+        }
+
+        function verDetalhesConsulta(id) {
+            navigation.navigateTo(`administrador_detalhes_consulta.html?id=${id}`);
+        }
+
+        function remarcarConsulta(id) {
+            navigation.confirmAction("Deseja remarcar esta consulta?", () => {
+                navigation.showNotification("Consulta remarcada com sucesso!", "success");
+            });
+        }
+
+        function cancelarConsulta(id) {
+            navigation.confirmAction("Deseja cancelar esta consulta?", () => {
+                navigation.showNotification("Consulta cancelada com sucesso!", "success");
+            });
+        }
+
+        function iniciarTeleconsulta(id) {
+            navigation.navigateTo(`prototipo_telemedicina.html?consulta=${id}`);
+        }
+
+        function verProntuario(id) {
+            navigation.navigateTo(`administrador_ver_prontuario.html?consulta=${id}`);
+        }
+
+        function gerarAtestado(id) {
+            navigation.showNotification("Gerando atestado médico...", "info");
+            setTimeout(() => {
+                navigation.showNotification("Atestado gerado e disponível para download!", "success");
+            }, 2000);
+        }
+
+        function previousPage() {
+            navigation.showNotification("Página anterior", "info");
+        }
+
+        function nextPage() {
+            navigation.showNotification("Próxima página", "info");
+        }
+    </script>
+
+    <style>
+        .search-filters {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-input i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6B7280;
+        }
+
+        .search-input input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .form-select {
+            padding: 8px 12px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            background: white;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .consultas-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .consulta-item {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #E5E7EB;
+            border-left: 4px solid #2563EB;
+        }
+
+        .consulta-item.teleconsulta {
+            border-left-color: #0EA5E9;
+        }
+
+        .consulta-item.realizada {
+            border-left-color: #10B981;
+        }
+
+        .consulta-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .patient-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .patient-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .consulta-item.teleconsulta .patient-avatar {
+            background: linear-gradient(135deg, #0EA5E9 0%, #0284C7 100%);
+        }
+
+        .consulta-item.realizada .patient-avatar {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+        }
+
+        .patient-details h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .patient-details p {
+            font-size: 14px;
+            color: #6B7280;
+        }
+
+        .consulta-meta {
+            text-align: right;
+        }
+
+        .consulta-date {
+            display: block;
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 8px;
+        }
+
+        .consulta-content {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #F8FAFC;
+            border-radius: 10px;
+        }
+
+        .info-row {
+            font-size: 14px;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .info-row strong {
+            color: #1F2937;
+        }
+
+        .consulta-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .consulta-actions .btn {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #E5E7EB;
+        }
+
+        .page-numbers {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .page-btn {
+            padding: 8px 12px;
+            border: 1px solid #D1D5DB;
+            background: white;
+            color: #374151;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .page-btn.active {
+            background: #2563EB;
+            color: white;
+            border-color: #2563EB;
+        }
+
+        .page-dots {
+            color: #6B7280;
+            padding: 0 10px;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .stat-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 5px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: #10B981;
+        }
+
+        .stat-change.negative {
+            color: #EF4444;
+        }
+
+        .stat-change.neutral {
+            color: #6B7280;
+        }
+
+        @media (max-width: 768px) {
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .filter-options {
+                flex-direction: column;
+            }
+
+            .consulta-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .consulta-actions {
+                flex-direction: column;
+            }
+
+            .pagination {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</body>
+</html>
+

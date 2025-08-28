@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Exames - VidaPlus</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-heartbeat"></i>
+                    VidaPlus
+                </div>
+            </div>
+            <div class="nav-menu">
+                <a href="prototipo_dashboard_paciente.html" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    Início
+                </a>
+                <a href="paciente_agendamentos.html" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    Agendamentos
+                </a>
+                <a href="paciente_prontuario.html" class="nav-item">
+                    <i class="fas fa-file-medical"></i>
+                    Prontuário
+                </a>
+                <a href="paciente_exames.html" class="nav-item active">
+                    <i class="fas fa-vial"></i>
+                    Exames
+                </a>
+                <a href="prototipo_telemedicina.html" class="nav-item">
+                    <i class="fas fa-video"></i>
+                    Telemedicina
+                </a>
+                <a href="paciente_perfil.html" class="nav-item">
+                    <i class="fas fa-user"></i>
+                    Meu Perfil
+                </a>
+                <a href="#" class="nav-item logout-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="page-title">
+                    <h1>Meus Exames</h1>
+                    <p>Gerencie seus exames laboratoriais e de imagem</p>
+                </div>
+                <div class="user-profile">
+                    <div class="profile-avatar">MS</div>
+                    <div class="profile-info">
+                        <h3>Maria Santos</h3>
+                        <p>Paciente</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="breadcrumb">
+                <a href="prototipo_dashboard_paciente.html">Início</a>
+                <span class="breadcrumb-separator">></span>
+                <span>Exames</span>
+            </div>
+
+            <!-- Ações Rápidas -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Ações Rápidas</h3>
+                </div>
+                <div class="grid grid-3">
+                    <a href="prototipo_agendamento.html?tipo=exame" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Agendar Exame
+                    </a>
+                    <button class="btn btn-secondary" onclick="verResultadosDisponiveis()">
+                        <i class="fas fa-file-alt"></i>
+                        Resultados Disponíveis
+                    </button>
+                    <button class="btn btn-success" onclick="baixarTodosResultados()">
+                        <i class="fas fa-download"></i>
+                        Baixar Todos
+                    </button>
+                </div>
+            </div>
+
+            <!-- Exames Pendentes -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Exames Pendentes</h3>
+                    <span class="badge badge-warning">2 exames</span>
+                </div>
+                <div class="exams-list">
+                    <div class="exam-item pending">
+                        <div class="exam-icon">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <div class="exam-info">
+                            <h4>Exame de Sangue Completo</h4>
+                            <p><i class="fas fa-calendar"></i> Agendado para: 18/07/2025 às 08:00</p>
+                            <p><i class="fas fa-map-marker-alt"></i> VidaPlus Lab - Zona Sul</p>
+                            <p><i class="fas fa-user-md"></i> Solicitado por: Dr. João Silva</p>
+                        </div>
+                        <div class="exam-status">
+                            <span class="badge badge-warning">Agendado</span>
+                        </div>
+                        <div class="exam-actions">
+                            <button class="btn btn-secondary" onclick="verDetalhesExame(1)">Ver Detalhes</button>
+                            <button class="btn btn-warning" onclick="remarcarExame(1)">Remarcar</button>
+                            <button class="btn btn-danger" onclick="cancelarExame(1)">Cancelar</button>
+                        </div>
+                    </div>
+
+                    <div class="exam-item pending">
+                        <div class="exam-icon">
+                            <i class="fas fa-x-ray"></i>
+                        </div>
+                        <div class="exam-info">
+                            <h4>Raio-X do Tórax</h4>
+                            <p><i class="fas fa-calendar"></i> Agendado para: 20/07/2025 às 14:30</p>
+                            <p><i class="fas fa-map-marker-alt"></i> Centro de Imagem VidaPlus</p>
+                            <p><i class="fas fa-user-md"></i> Solicitado por: Dr. João Silva</p>
+                        </div>
+                        <div class="exam-status">
+                            <span class="badge badge-warning">Agendado</span>
+                        </div>
+                        <div class="exam-actions">
+                            <button class="btn btn-secondary" onclick="verDetalhesExame(2)">Ver Detalhes</button>
+                            <button class="btn btn-warning" onclick="remarcarExame(2)">Remarcar</button>
+                            <button class="btn btn-danger" onclick="cancelarExame(2)">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resultados Disponíveis -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Resultados Disponíveis</h3>
+                    <span class="badge badge-success">3 resultados</span>
+                </div>
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="result-header">
+                            <div class="result-icon">
+                                <i class="fas fa-vial"></i>
+                            </div>
+                            <div class="result-info">
+                                <h4>Hemograma Completo</h4>
+                                <p>Realizado em: 08/07/2025</p>
+                                <p>Dr. João Silva</p>
+                            </div>
+                        </div>
+                        <div class="result-status">
+                            <span class="badge badge-success">Normal</span>
+                        </div>
+                        <div class="result-summary">
+                            <p><strong>Principais valores:</strong></p>
+                            <ul>
+                                <li>Hemoglobina: 13.2 g/dL (Normal)</li>
+                                <li>Leucócitos: 7.500/mm³ (Normal)</li>
+                                <li>Plaquetas: 280.000/mm³ (Normal)</li>
+                            </ul>
+                        </div>
+                        <div class="result-actions">
+                            <button class="btn btn-primary" onclick="verResultadoCompleto(1)">Ver Completo</button>
+                            <button class="btn btn-secondary" onclick="baixarResultado(1)">Download PDF</button>
+                            <button class="btn btn-success" onclick="compartilharResultado(1)">Compartilhar</button>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-header">
+                            <div class="result-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <div class="result-info">
+                                <h4>Eletrocardiograma</h4>
+                                <p>Realizado em: 08/07/2025</p>
+                                <p>Dr. João Silva</p>
+                            </div>
+                        </div>
+                        <div class="result-status">
+                            <span class="badge badge-success">Normal</span>
+                        </div>
+                        <div class="result-summary">
+                            <p><strong>Resultado:</strong></p>
+                            <p>Ritmo sinusal normal. Frequência cardíaca: 72 bpm. Sem alterações significativas.</p>
+                        </div>
+                        <div class="result-actions">
+                            <button class="btn btn-primary" onclick="verResultadoCompleto(2)">Ver Completo</button>
+                            <button class="btn btn-secondary" onclick="baixarResultado(2)">Download PDF</button>
+                            <button class="btn btn-success" onclick="compartilharResultado(2)">Compartilhar</button>
+                        </div>
+                    </div>
+
+                    <div class="result-card">
+                        <div class="result-header">
+                            <div class="result-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <div class="result-info">
+                                <h4>Glicemia de Jejum</h4>
+                                <p>Realizado em: 05/07/2025</p>
+                                <p>Dra. Maria Oliveira</p>
+                            </div>
+                        </div>
+                        <div class="result-status">
+                            <span class="badge badge-warning">Atenção</span>
+                        </div>
+                        <div class="result-summary">
+                            <p><strong>Valor encontrado:</strong></p>
+                            <p>Glicose: 110 mg/dL (Limite superior normal: 100 mg/dL)</p>
+                            <p class="alert-text">Recomenda-se acompanhamento médico.</p>
+                        </div>
+                        <div class="result-actions">
+                            <button class="btn btn-primary" onclick="verResultadoCompleto(3)">Ver Completo</button>
+                            <button class="btn btn-secondary" onclick="baixarResultado(3)">Download PDF</button>
+                            <button class="btn btn-warning" onclick="agendarConsulta(3)">Agendar Consulta</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Histórico de Exames -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Histórico de Exames</h3>
+                    <div class="filter-options">
+                        <select class="form-select" onchange="filtrarHistorico(this.value)">
+                            <option value="todos">Todos os exames</option>
+                            <option value="sangue">Exames de Sangue</option>
+                            <option value="imagem">Exames de Imagem</option>
+                            <option value="cardiaco">Exames Cardíacos</option>
+                        </select>
+                        <select class="form-select" onchange="filtrarPeriodo(this.value)">
+                            <option value="30">Últimos 30 dias</option>
+                            <option value="90">Últimos 3 meses</option>
+                            <option value="180">Últimos 6 meses</option>
+                            <option value="365">Último ano</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="history-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Exame</th>
+                                <th>Médico</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>08/07/2025</td>
+                                <td>Hemograma Completo</td>
+                                <td>Dr. João Silva</td>
+                                <td><span class="badge badge-success">Concluído</span></td>
+                                <td>
+                                    <button class="btn-small btn-primary" onclick="verResultadoCompleto(1)">Ver</button>
+                                    <button class="btn-small btn-secondary" onclick="baixarResultado(1)">PDF</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>08/07/2025</td>
+                                <td>Eletrocardiograma</td>
+                                <td>Dr. João Silva</td>
+                                <td><span class="badge badge-success">Concluído</span></td>
+                                <td>
+                                    <button class="btn-small btn-primary" onclick="verResultadoCompleto(2)">Ver</button>
+                                    <button class="btn-small btn-secondary" onclick="baixarResultado(2)">PDF</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>05/07/2025</td>
+                                <td>Glicemia de Jejum</td>
+                                <td>Dra. Maria Oliveira</td>
+                                <td><span class="badge badge-success">Concluído</span></td>
+                                <td>
+                                    <button class="btn-small btn-primary" onclick="verResultadoCompleto(3)">Ver</button>
+                                    <button class="btn-small btn-secondary" onclick="baixarResultado(3)">PDF</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>20/06/2025</td>
+                                <td>Ultrassom Abdominal</td>
+                                <td>Dr. Carlos Santos</td>
+                                <td><span class="badge badge-danger">Cancelado</span></td>
+                                <td>
+                                    <button class="btn-small btn-warning" onclick="reagendarExame(4)">Reagendar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/navigation.js"></script>
+    <script>
+        function verDetalhesExame(id) {
+            navigation.navigateTo(`paciente_exame_detalhes.html?id=${id}`);
+        }
+
+        function remarcarExame(id) {
+            navigation.navigateTo(`prototipo_agendamento.html?remarcar=${id}&tipo=exame`);
+        }
+
+        function cancelarExame(id) {
+            navigation.confirmAction('Tem certeza que deseja cancelar este exame?', () => {
+                navigation.showNotification('Exame cancelado com sucesso!', 'success');
+                // Aqui removeria o item da lista
+            });
+        }
+
+        function verResultadoCompleto(id) {
+            navigation.navigateTo(`paciente_resultado_exame.html?id=${id}`);
+        }
+
+        function baixarResultado(id) {
+            navigation.showNotification('Baixando resultado do exame...', 'info');
+            setTimeout(() => {
+                navigation.showNotification('Resultado baixado com sucesso!', 'success');
+            }, 2000);
+        }
+
+        function compartilharResultado(id) {
+            navigation.showNotification('Gerando link de compartilhamento...', 'info');
+            setTimeout(() => {
+                navigation.showNotification('Link copiado para a área de transferência!', 'success');
+            }, 1500);
+        }
+
+        function agendarConsulta(id) {
+            navigation.navigateTo('prototipo_agendamento.html?motivo=resultado_exame&exame=' + id);
+        }
+
+        function verResultadosDisponiveis() {
+            document.querySelector('.results-grid').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function baixarTodosResultados() {
+            navigation.showNotification('Preparando download de todos os resultados...', 'info');
+            setTimeout(() => {
+                navigation.showNotification('Arquivo ZIP com todos os resultados baixado!', 'success');
+            }, 3000);
+        }
+
+        function filtrarHistorico(tipo) {
+            navigation.showNotification(`Filtrando por: ${tipo}`, 'info');
+            // Aqui implementaria a lógica de filtro
+        }
+
+        function filtrarPeriodo(periodo) {
+            navigation.showNotification(`Mostrando últimos ${periodo} dias`, 'info');
+            // Aqui implementaria a lógica de filtro por período
+        }
+
+        function reagendarExame(id) {
+            navigation.navigateTo(`prototipo_agendamento.html?reagendar=${id}&tipo=exame`);
+        }
+    </script>
+
+    <style>
+        .exams-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .exam-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: #F8FAFC;
+            border-radius: 10px;
+            border-left: 4px solid #F59E0B;
+        }
+
+        .exam-item.pending {
+            border-left-color: #F59E0B;
+        }
+
+        .exam-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .exam-info {
+            flex: 1;
+        }
+
+        .exam-info h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1F2937;
+        }
+
+        .exam-info p {
+            margin: 4px 0;
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .exam-info i {
+            width: 16px;
+            margin-right: 8px;
+            color: #F59E0B;
+        }
+
+        .exam-actions {
+            display: flex;
+            gap: 8px;
+            flex-direction: column;
+        }
+
+        .exam-actions .btn {
+            padding: 6px 12px;
+            font-size: 14px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #E5E7EB;
+        }
+
+        .result-header {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .result-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .result-info h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+
+        .result-info p {
+            font-size: 14px;
+            color: #6B7280;
+            margin: 2px 0;
+        }
+
+        .result-status {
+            margin-bottom: 15px;
+        }
+
+        .result-summary {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #F8FAFC;
+            border-radius: 8px;
+        }
+
+        .result-summary p {
+            margin: 5px 0;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .result-summary ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .result-summary li {
+            margin: 5px 0;
+            color: #6B7280;
+            font-size: 14px;
+        }
+
+        .alert-text {
+            color: #D97706 !important;
+            font-weight: 600;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .result-actions .btn {
+            padding: 8px 12px;
+            font-size: 14px;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-select {
+            padding: 8px 12px;
+            border: 1px solid #D1D5DB;
+            border-radius: 8px;
+            background: white;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .history-table {
+            overflow-x: auto;
+        }
+
+        .history-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .history-table th {
+            background: #F8FAFC;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .history-table td {
+            color: #6B7280;
+        }
+
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 12px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-small.btn-primary {
+            background: #2563EB;
+            color: white;
+        }
+
+        .btn-small.btn-secondary {
+            background: #6B7280;
+            color: white;
+        }
+
+        .btn-small.btn-warning {
+            background: #F59E0B;
+            color: white;
+        }
+
+        .btn-small:hover {
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            .exam-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .exam-actions {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .result-actions {
+                flex-direction: column;
+            }
+
+            .filter-options {
+                flex-direction: column;
+            }
+
+            .history-table {
+                font-size: 14px;
+            }
+        }
+    </style>
+</body>
+</html>
+
